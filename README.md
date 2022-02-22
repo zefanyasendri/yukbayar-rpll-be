@@ -1,4 +1,4 @@
-# yukbayar-rpll-be
+# YukBayar
 ### Tugas Besar IF-601 ~ Rekayasa Perangkat Lunak Lanjut
 Anggota  :\
 1119010 - Nealson William\

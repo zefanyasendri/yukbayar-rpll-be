@@ -5,4 +5,4 @@ Anggota  :\
 1119012 - Zefanya Sendri\
 1119026 - Gilbert Cefryo\
 1119036 - Hans Patrick\
-1119050 - Hilbert Purba\
+1119050 - Hilbert Purba

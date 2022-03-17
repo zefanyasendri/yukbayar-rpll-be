@@ -6,6 +6,8 @@ type Pengguna struct {
 	Nama        string `form:"nama" json:"nama"`
 	NoTelpon    string `form:"noTelpon" json:"noTelpon"`
 	Password    string `form:"password" json:"password"`
+	TglLahir    string `form:"password" json:"tglLahir"`
+	Gender      string `form:"password" json:"gender"`
 	SaldoYukPay int    `form:"saldoYukPay" json:"saldoYukPay"`
 	// tipePengguna: TipePengguna
 

@@ -37,6 +37,8 @@ CREATE TABLE `pengguna` (
   `nama` varchar(255) NOT NULL,
   `noTelpon` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `tglLahir` varchar(10) NOT NULL,
+  `gender` varchar(20) NOT NULL,
   `saldoYukPay` int(10) NOT NULL,
   `tipepengguna` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

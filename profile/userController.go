@@ -1,7 +1,7 @@
-package profile
+package Profile
 
 import (
-	"errors"
+	//"errors"
 	"log"
 
 	//"strconv"
@@ -15,13 +15,15 @@ func GetUserData(c *gin.Context) {
 	db := repo.Connect()
 	defer db.Close()
 
-	query := "SELECT * FROM pengguna"
-
 	nama := c.Param("nama")
 
-	if nama != "" {
-		query += "WHERE nama='" + nama + "'"
-	}
+	query := "SELECT * FROM pengguna WHERE nama ='" + nama + "'"
+	//query := "SELECT * FROM pengguna"
+
+	// if nama != "" {
+	// 	query += "WHERE nama='" + nama + "'"
+	// }
+
 	rows, err := db.Query(query)
 	if err != nil {
 		log.Println(err)
@@ -31,7 +33,7 @@ func GetUserData(c *gin.Context) {
 	var profiles []model.Pengguna
 
 	for rows.Next() {
-		if err := rows.Scan(&profile.ID, &profile.Nama, &profile.Email, &profile.NoTelpon, &profile.Password, &profile.Gender, &profile.TglLahir); err != nil {
+		if err := rows.Scan(&profile.ID, &profile.Email, &profile.Nama, &profile.NoTelpon, &profile.Password, &profile.TglLahir, &profile.Gender, &profile.SaldoYukPay, &profile.TipePengguna); err != nil {
 			log.Fatal(err.Error())
 		} else {
 			profiles = append(profiles, profile)
@@ -42,8 +44,10 @@ func GetUserData(c *gin.Context) {
 	if err == nil {
 		response.Message = "Get User Data Success"
 		response.Data = profiles
+		sendUserSuccessresponse(c, response)
 	} else {
 		response.Message = "Get User Data Failed"
+		sendUserErrorresponse(c, response)
 	}
 
 }
@@ -61,7 +65,7 @@ func UpdateUser(c *gin.Context) {
 	rows, _ := db.Query("SELECT * FROM pengguna WHERE id='" + id + "'")
 	var profile model.Pengguna
 	for rows.Next() {
-		if err := rows.Scan(&profile.ID, &profile.Nama, &profile.Email, &profile.NoTelpon, &profile.Password, &profile.Gender, &profile.TglLahir); err != nil {
+		if err := rows.Scan(&profile.ID, &profile.Email, &profile.Nama, &profile.NoTelpon, &profile.Password, &profile.TglLahir, &profile.Gender, &profile.SaldoYukPay, &profile.TipePengguna); err != nil {
 			log.Fatal(err.Error())
 		}
 	}
@@ -74,7 +78,7 @@ func UpdateUser(c *gin.Context) {
 		noTelp = profile.NoTelpon
 	}
 
-	_, errQuery := db.Exec("UPDATE pengguna SET nama = ?, pass = ?, noTelpon = ? WHERE id=?",
+	_, errQuery := db.Exec("UPDATE pengguna SET nama = ?, password = ?, noTelpon = ? WHERE id = ?",
 		nama,
 		pass,
 		noTelp,
@@ -84,29 +88,31 @@ func UpdateUser(c *gin.Context) {
 	var response model.PenggunaResponse
 	if errQuery == nil {
 		response.Message = "Update Profile Success"
+		sendUserSuccessresponse(c, response)
 	} else {
 		response.Message = "Update Profile Success"
+		sendUserErrorresponse(c, response)
 	}
 }
 
-func CheckOldPass(c *gin.Context) {
+// func CheckOldPass(c *gin.Context) {
 
-	db := repo.Connect()
-	defer db.Close()
+// 	db := repo.Connect()
+// 	defer db.Close()
 
-	query := "SELECT password from pengguna"
+// 	query := "SELECT password from pengguna"
 
-	id := c.Param("id")
-	pass := c.PostForm("password")
+// 	id := c.Param("id")
+// 	pass := c.PostForm("password")
 
-	if id != "" {
-		query += "WHERE id='" + id + "'"
-	}
+// 	if id != "" {
+// 		query += "WHERE id='" + id + "'"
+// 	}
 
-	var pengguna model.Pengguna
-	if pass != pengguna.Password {
-		err := errors.New("Different Pass")
-		log.Print("Error: ", err)
-	}
+// 	var pengguna model.Pengguna
+// 	if pass != pengguna.Password {
+// 		err := errors.New("different pass")
+// 		log.Print("Error: ", err)
+// 	}
 
-}
+// }

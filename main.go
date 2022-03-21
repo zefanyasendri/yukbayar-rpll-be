@@ -26,10 +26,13 @@ func main() {
 		MaxAge: 12 * time.Hour,
 	}))
 
-	router.GET("/user", profile.GetUserData)
-
+	//router.GET("/user", profile.GetUserData)
 	user := router.Group("/user")
 	{
+		user.GET("/:nama", profile.GetUserData)
 		user.PUT("/:id", profile.UpdateUser)
 	}
+
+	router.Run(":8080")
+	fmt.Println("Connected to port 8080")
 }

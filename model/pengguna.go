@@ -1,14 +1,15 @@
 package model
 
 type Pengguna struct {
-	ID          int    `form:"id" json:"id"`
-	Email       string `form:"email" json:"email"`
-	Nama        string `form:"nama" json:"nama"`
-	NoTelpon    string `form:"noTelpon" json:"noTelpon"`
-	Password    string `form:"password" json:"password"`
-	SaldoYukPay int    `form:"saldoYukPay" json:"saldoYukPay"`
-	// tipePengguna: TipePengguna
-
+	ID           int    `form:"id" json:"id"`
+	Email        string `form:"email" json:"email"`
+	Nama         string `form:"nama" json:"nama"`
+	NoTelpon     string `form:"noTelpon" json:"noTelpon"`
+	Password     string `form:"password" json:"password"`
+	TglLahir     string `form:"tglLahir" json:"tglLahir"`
+	Gender       string `form:"gender" json:"gender"`
+	SaldoYukPay  int    `form:"saldoYukPay" json:"saldoYukPay"`
+	TipePengguna string `form:"tipepengguna" json:"tipepengguna"`
 }
 
 type PenggunaResponse struct {

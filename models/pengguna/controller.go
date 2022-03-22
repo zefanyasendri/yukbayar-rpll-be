@@ -10,7 +10,7 @@ import (
 	//"strconv"
 
 	"yukbayar-rpll-be/db"
-	"yukbayar-rpll-be/models/response"
+	"yukbayar-rpll-be/helpers/response"
 
 	"github.com/gin-gonic/gin"
 )

@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"time"
 
+	"yukbayar-rpll-be/routes"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	profile "github.com/yukbayar-backend/profile"
 )
 
 func main() {
@@ -26,13 +27,8 @@ func main() {
 		MaxAge: 12 * time.Hour,
 	}))
 
-	//router.GET("/user", profile.GetUserData)
-	user := router.Group("/user")
-	{
-		user.GET("/:nama", profile.GetUserData)
-		user.PUT("/:id", profile.UpdateUser)
-	}
+	routes.Routes(router)
 
-	router.Run(":8080")
+	router.Run()
 	fmt.Println("Connected to port 8080")
 }

@@ -1,4 +1,4 @@
-package model
+package varian
 
 type Varian struct {
 	ID    int    `form:"id" json:"id"`

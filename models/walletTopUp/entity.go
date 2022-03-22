@@ -1,4 +1,4 @@
-package model
+package walletTopUp
 
 type WalletTopUp struct {
 	ID         int    `form:"id" json:"id"`

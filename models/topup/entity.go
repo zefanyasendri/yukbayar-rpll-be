@@ -1,4 +1,4 @@
-package model
+package topup
 
 type TopUp struct {
 	ID         int    `form:"id" json:"id"`

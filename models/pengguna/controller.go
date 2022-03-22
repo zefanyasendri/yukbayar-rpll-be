@@ -1,23 +1,27 @@
-package Profile
+package pengguna
 
 import (
 	//"errors"
+
+	"database/sql"
+	"fmt"
 	"log"
 
 	//"strconv"
 
+	"yukbayar-rpll-be/db"
+	"yukbayar-rpll-be/models/response"
+
 	"github.com/gin-gonic/gin"
-	repo "github.com/yukbayar-backend/db_handler"
-	"github.com/yukbayar-backend/model"
 )
 
 func GetUserData(c *gin.Context) {
-	db := repo.Connect()
+	db := db.Connect()
 	defer db.Close()
 
-	nama := c.Param("nama")
+	id := c.Param("id")
 
-	query := "SELECT * FROM pengguna WHERE nama ='" + nama + "'"
+	query := "SELECT * FROM pengguna WHERE ID =" + id
 	//query := "SELECT * FROM pengguna"
 
 	// if nama != "" {
@@ -29,8 +33,8 @@ func GetUserData(c *gin.Context) {
 		log.Println(err)
 	}
 
-	var profile model.Pengguna
-	var profiles []model.Pengguna
+	var profile Pengguna
+	var profiles []Pengguna
 
 	for rows.Next() {
 		if err := rows.Scan(&profile.ID, &profile.Email, &profile.Nama, &profile.NoTelpon, &profile.Password, &profile.TglLahir, &profile.Gender, &profile.SaldoYukPay, &profile.TipePengguna); err != nil {
@@ -40,21 +44,23 @@ func GetUserData(c *gin.Context) {
 		}
 	}
 
-	var response model.PenggunaResponse
-	if err == nil {
-		response.Message = "Get User Data Success"
-		response.Data = profiles
-		sendUserSuccessresponse(c, response)
+	fmt.Println(profiles)
+
+	var res response.Response
+	if len(profiles) > 0 {
+		res.Message = "Get User Data Success"
+		res.Data = profiles
+		response.SendSuccessResponse(c, res)
 	} else {
-		response.Message = "Get User Data Failed"
-		sendUserErrorresponse(c, response)
+		res.Message = "Get User Data Failed"
+		response.SendErrorResponse(c, res)
 	}
 
 }
 
 func UpdateUser(c *gin.Context) {
 
-	db := repo.Connect()
+	db := db.Connect()
 	defer db.Close()
 
 	nama := c.PostForm("nama")
@@ -62,12 +68,18 @@ func UpdateUser(c *gin.Context) {
 	noTelp := c.PostForm("noTelpon")
 	id := c.Param("id")
 
-	rows, _ := db.Query("SELECT * FROM pengguna WHERE id='" + id + "'")
-	var profile model.Pengguna
-	for rows.Next() {
-		if err := rows.Scan(&profile.ID, &profile.Email, &profile.Nama, &profile.NoTelpon, &profile.Password, &profile.TglLahir, &profile.Gender, &profile.SaldoYukPay, &profile.TipePengguna); err != nil {
-			log.Fatal(err.Error())
-		}
+	var profile Pengguna
+	err := db.QueryRow("SELECT nama, noTelpon, password FROM pengguna WHERE id="+id).Scan(&profile.Nama, &profile.NoTelpon, &profile.Password)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err == sql.ErrNoRows {
+		response.SendErrorResponse(c, response.Response{
+			Message: "User ID not found",
+		})
+		return
 	}
 
 	if nama == "" {
@@ -78,6 +90,10 @@ func UpdateUser(c *gin.Context) {
 		noTelp = profile.NoTelpon
 	}
 
+	if pass == "" {
+		pass = profile.Password
+	}
+
 	_, errQuery := db.Exec("UPDATE pengguna SET nama = ?, password = ?, noTelpon = ? WHERE id = ?",
 		nama,
 		pass,
@@ -85,13 +101,13 @@ func UpdateUser(c *gin.Context) {
 		id,
 	)
 
-	var response model.PenggunaResponse
+	var res response.Response
 	if errQuery == nil {
-		response.Message = "Update Profile Success"
-		sendUserSuccessresponse(c, response)
+		res.Message = "Update Profile Success"
+		response.SendSuccessResponse(c, res)
 	} else {
-		response.Message = "Update Profile Success"
-		sendUserErrorresponse(c, response)
+		res.Message = "Update Profile Failed"
+		response.SendErrorResponse(c, res)
 	}
 }
 

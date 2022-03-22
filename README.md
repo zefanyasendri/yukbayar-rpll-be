@@ -34,9 +34,6 @@
 - [Gin Gonic](https://github.com/gin-gonic)
   <br>
   Gin is a HTTP web framework written in Go (Golang).
-- [Gorilla Mux](https://github.com/gorilla/mux)
-  <br>
-  Gorilla Mux is a powerful HTTP router and URL matcher for building Go web servers
 - [Vue.JS](https://vuejs.org/)
   <br>
   Vue.JS is a progressive framework for JavaScript used to build web user interfaces.

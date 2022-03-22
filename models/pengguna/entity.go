@@ -1,4 +1,4 @@
-package model
+package pengguna
 
 type Pengguna struct {
 	ID           int    `form:"id" json:"id"`
@@ -12,12 +12,12 @@ type Pengguna struct {
 	TipePengguna string `form:"tipepengguna" json:"tipepengguna"`
 }
 
-type PenggunaResponse struct {
-	Message string     `form:"message" json:"message"`
-	Data    []Pengguna `form:"data" json:"data"`
-}
+// type PenggunaResponse struct {
+// 	Message string     `form:"message" json:"message"`
+// 	Data    []Pengguna `form:"data" json:"data"`
+// }
 
-type LoginResponse struct {
-	Message string `form:"message" json:"message"`
-	Type    string `form:"penggunaType" json:"penggunaType"`
-}
+// type LoginResponse struct {
+// 	Message string `form:"message" json:"message"`
+// 	Type    string `form:"penggunaType" json:"penggunaType"`
+// }

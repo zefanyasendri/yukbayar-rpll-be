@@ -1,15 +1,15 @@
 package pengguna
 
 type Pengguna struct {
-	ID           int    `form:"id" json:"id"`
-	Email        string `form:"email" json:"email"`
-	Nama         string `form:"nama" json:"nama"`
-	NoTelpon     string `form:"noTelpon" json:"noTelpon"`
-	Password     string `form:"password" json:"password"`
-	TglLahir     string `form:"tglLahir" json:"tglLahir"`
-	Gender       string `form:"gender" json:"gender"`
-	SaldoYukPay  int    `form:"saldoYukPay" json:"saldoYukPay"`
-	TipePengguna string `form:"tipepengguna" json:"tipepengguna"`
+	ID           string `gorm:"primary_key" form:"id" json:"id"`
+	Email        string `gorm:"type:varchar(255)" form:"email" json:"email"`
+	Nama         string `gorm:"type:varchar(255)" form:"nama" json:"nama"`
+	NoTelpon     string `gorm:"type:varchar(255)" form:"noTelpon" json:"noTelpon"`
+	Password     string `gorm:"type:varchar(255)" form:"password" json:"password"`
+	TglLahir     string `gorm:"type:varchar(10)" form:"tglLahir" json:"tglLahir"`
+	Gender       string `gorm:"type:varchar(20)" form:"gender" json:"gender"`
+	SaldoYukPay  int    `gorm:"type:int" form:"saldoYukPay" json:"saldoYukPay"`
+	TipePengguna string `gorm:"type:varchar(255)" form:"tipepengguna" json:"tipepengguna"`
 }
 
 // type PenggunaResponse struct {

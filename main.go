@@ -11,8 +11,6 @@ import (
 )
 
 func main() {
-	fmt.Println("REST API Yuk Bayar")
-
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{

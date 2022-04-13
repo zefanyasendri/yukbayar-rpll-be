@@ -1,7 +1,7 @@
 package kategoriLayanan
 
 import (
-	"yukbayar-rpll-be/models/varian"
+	"yukbayar-rpll-be/modules/varian"
 )
 
 type KategoriLayanan struct {

@@ -1,7 +1,7 @@
 package mitra
 
 import (
-	"yukbayar-rpll-be/models/layanan"
+	"yukbayar-rpll-be/modules/layanan"
 )
 
 type Mitra struct {

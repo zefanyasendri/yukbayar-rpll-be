@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"yukbayar-rpll-be/db"
 	"yukbayar-rpll-be/routes"
 
 	"github.com/gin-contrib/cors"
@@ -11,6 +12,7 @@ import (
 )
 
 func main() {
+	db := db.Connect()
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
@@ -25,7 +27,7 @@ func main() {
 		MaxAge: 12 * time.Hour,
 	}))
 
-	routes.Routes(router)
+	routes.Routes(router, db)
 
 	router.Run()
 	fmt.Println("Connected to port 8080")

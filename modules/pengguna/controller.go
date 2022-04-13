@@ -5,38 +5,38 @@ import (
 
 	//"strconv"
 
-	"fmt"
-	"yukbayar-rpll-be/db"
 	"yukbayar-rpll-be/helpers/response"
 
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserData(c *gin.Context) {
-	db := db.Connect()
+type controller struct {
+	service Service
+}
+
+func NewController(service Service) *controller {
+	return &controller{service}
+}
+
+func (con *controller) GetUserData(c *gin.Context) {
 	id := c.Param("id")
 
-	var pengguna Pengguna
-
-	result := db.First(&pengguna, id)
-	if result.Error != nil {
+	pengguna, err := con.service.GetByID(id)
+	if err != nil {
 		response.SendErrorResponse(c, response.Response{
 			Message: "User ID not found",
-			Data:    result.Error,
+			Data:    err.Error(),
 		})
 		return
 	}
 
 	var res response.Response
-	fmt.Println(pengguna.NoTelpon)
 	res.Message = "Get user data success"
-	res.Data = result.RowsAffected
+	res.Data = pengguna
 	response.SendSuccessResponse(c, res)
 }
 
-func UpdateUser(c *gin.Context) {
-	db := db.Connect()
-
+func (con *controller) UpdateUser(c *gin.Context) {
 	email := c.PostForm("email")
 	nama := c.PostForm("nama")
 	noTelpon := c.PostForm("noTelpon")
@@ -46,16 +46,16 @@ func UpdateUser(c *gin.Context) {
 
 	id := c.Param("id")
 
-	var pengguna Pengguna
-
-	queryRes := db.Table("pengguna").Select("email, nama, noTelpon, password").Where("id = ?", id).Find(&pengguna)
-	if queryRes.Error != nil {
+	pengguna, err := con.service.GetByID(id)
+	if err != nil {
 		response.SendErrorResponse(c, response.Response{
-			Message: "User ID not found",
+			Message: "User ID Not Found",
+			Data:    err.Error(),
 		})
 		return
 	}
 
+	//logic ini harusnya di service tapi saya harus mikir dlu
 	if email == "" {
 		email = pengguna.Email
 	}
@@ -72,11 +72,12 @@ func UpdateUser(c *gin.Context) {
 		password = pengguna.Password
 	}
 
-	updateRes := db.Table("pengguna").Where("id = ?", id).Updates(map[string]interface{}{"email": email, "nama": nama, "noTelpon": noTelpon, "password": password})
+	result := con.service.UpdateByID(id, map[string]interface{}{"email": email, "nama": nama, "noTelpon": noTelpon, "password": password})
 
-	if updateRes.Error != nil {
+	if err != nil {
 		response.SendErrorResponse(c, response.Response{
 			Message: "Failed to update",
+			Data:    err.Error(),
 		})
 		return
 	}
@@ -84,7 +85,7 @@ func UpdateUser(c *gin.Context) {
 	var res response.Response
 
 	res.Message = "Update user data success"
-	res.Data = updateRes.RowsAffected
+	res.Data = result
 	response.SendSuccessResponse(c, res)
 }
 

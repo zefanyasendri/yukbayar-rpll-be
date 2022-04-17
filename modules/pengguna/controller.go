@@ -41,7 +41,7 @@ func (con *controller) UpdateUser(c *gin.Context) {
 	req := new(UpdateRequest)
 	if err := c.Bind(req); err != nil {
 		response.SendErrorResponse(c, response.Response{
-			Message: "Failed to update",
+			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
 		return
@@ -63,4 +63,34 @@ func (con *controller) UpdateUser(c *gin.Context) {
 	res.Message = "Update user data success"
 	res.Data = pengguna
 	response.SendSuccessResponse(c, res)
+}
+
+func (con *controller) Register(c *gin.Context) {
+	req := new(Pengguna)
+
+	if err := c.Bind(req); err != nil {
+		response.SendErrorResponse(c, response.Response{
+			Message: "Failed to bind",
+			Data:    err.Error(),
+		})
+	}
+
+	uuid, exists, err := con.service.Create(req)
+
+	if exists {
+		response.SendErrorResponse(c, response.Response{
+			Message: "Failed to create account",
+			Data:    "Email already exist",
+		})
+	} else if err != nil {
+		response.SendErrorResponse(c, response.Response{
+			Message: "Failed to create account",
+			Data:    err.Error(),
+		})
+	} else {
+		var res response.Response
+		res.Message = "Update user data success"
+		res.Data = map[string]interface{}{"uuid": uuid}
+		response.SendSuccessResponse(c, res)
+	}
 }

@@ -12,6 +12,11 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	penggunaService := pengguna.NewService(penggunaRepository)
 	penggunaController := pengguna.NewController(penggunaService)
 
+	root := route.Group("/")
+	{
+		root.POST("/login", penggunaController.Register)
+	}
+
 	users := route.Group("/users")
 	{
 		users.GET("/:id", penggunaController.GetUserData)

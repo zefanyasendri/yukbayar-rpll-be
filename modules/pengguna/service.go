@@ -1,7 +1,13 @@
 package pengguna
 
+import (
+	"yukbayar-rpll-be/helpers/password"
+
+	"github.com/google/uuid"
+)
+
 type Service interface {
-	Create(pengguna Pengguna) (Pengguna, error)
+	Create(req *Pengguna) (string, bool, error)
 	GetAll() ([]Pengguna, error)
 	GetByID(ID string) (Pengguna, error)
 	UpdateByID(ID string, req *UpdateRequest) error
@@ -10,12 +16,23 @@ type service struct {
 	repository Repository
 }
 
-func (s *service) Create(pengguna Pengguna) (Pengguna, error) {
-	return pengguna, nil //belum ada logic apa2
-}
-
 func NewService(repository Repository) *service {
 	return &service{repository}
+}
+
+func (s *service) Create(req *Pengguna) (string, bool, error) {
+	exists, err := s.repository.GetByEmail(req.Email)
+	if exists {
+		return "", exists, err
+	}
+
+	req.ID = uuid.New().String()
+	if req.Password, err = password.HashPassword(req.Password); err != nil {
+		return "", false, err
+	}
+
+	err = s.repository.Create(req)
+	return req.ID, false, err
 }
 
 func (s *service) GetAll() ([]Pengguna, error) {

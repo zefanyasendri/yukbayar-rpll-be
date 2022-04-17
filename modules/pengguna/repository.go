@@ -5,9 +5,10 @@ import (
 )
 
 type Repository interface {
-	Create(pengguna Pengguna) (Pengguna, error)
+	Create(req *Pengguna) error
 	GetAll() ([]Pengguna, error)
 	GetByID(ID string) (Pengguna, error)
+	GetByEmail(ID string) (bool, error)
 	UpdateByID(ID string, req *UpdateRequest) error
 }
 
@@ -15,12 +16,13 @@ type repository struct {
 	db *gorm.DB
 }
 
-func (r *repository) Create(pengguna Pengguna) (Pengguna, error) {
-	return pengguna, nil //belum ada logic apa2
-}
-
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) Create(req *Pengguna) error {
+	err := r.db.Table("pengguna").Create(req).Error
+	return err
 }
 
 func (r *repository) GetAll() ([]Pengguna, error) {
@@ -35,6 +37,13 @@ func (r *repository) GetByID(ID string) (Pengguna, error) {
 
 	err := r.db.Table("pengguna").Where("id = ?", ID).Scan(&pengguna).Error
 	return pengguna, err
+}
+
+func (r *repository) GetByEmail(email string) (bool, error) {
+	var exists bool
+
+	err := r.db.Table("pengguna").Select("count(*) > 0").Where("email = ?", email).Find(&exists).Error
+	return exists, err
 }
 
 func (r *repository) UpdateByID(ID string, req *UpdateRequest) error {

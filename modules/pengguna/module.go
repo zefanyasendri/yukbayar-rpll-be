@@ -9,13 +9,15 @@ type Pengguna struct {
 	TglLahir     string `gorm:"type:varchar(10);column:tglLahir" form:"tglLahir" json:"tglLahir"`
 	Gender       string `gorm:"type:varchar(20)" form:"gender" json:"gender"`
 	SaldoYukPay  int    `gorm:"type:int;column:saldoYukPay" form:"saldoYukPay" json:"saldoYukPay"`
-	TipePengguna string `gorm:"type:varchar(255);column:tipePengguna" form:"tipePengguna" json:"tipePengguna"`
+	TipePengguna string `gorm:"type:varchar(255);column:tipepengguna" form:"tipePengguna" json:"tipePengguna"`
 }
 
-// type PenggunaResponse struct {
-// 	Message string     `form:"message" json:"message"`
-// 	Data    []Pengguna `form:"data" json:"data"`
-// }
+type UpdateRequest struct {
+	Email    string `form:"email" json:"email"`
+	Nama     string `form:"nama" json:"nama"`
+	NoTelpon string `gorm:"column:noTelpon" form:"noTelpon" json:"noTelpon"`
+	Password string `form:"password" json:"password"`
+}
 
 // type LoginResponse struct {
 // 	Message string `form:"message" json:"message"`

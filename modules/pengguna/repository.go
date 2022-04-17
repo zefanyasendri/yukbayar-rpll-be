@@ -8,7 +8,7 @@ type Repository interface {
 	Create(pengguna Pengguna) (Pengguna, error)
 	GetAll() ([]Pengguna, error)
 	GetByID(ID string) (Pengguna, error)
-	UpdateByID(ID string, input interface{}) error
+	UpdateByID(ID string, req *UpdateRequest) error
 }
 
 type repository struct {
@@ -37,7 +37,7 @@ func (r *repository) GetByID(ID string) (Pengguna, error) {
 	return pengguna, err
 }
 
-func (r *repository) UpdateByID(ID string, input interface{}) error {
-	err := r.db.Table("pengguna").Where("id = ?", ID).Updates(input).Error
+func (r *repository) UpdateByID(ID string, req *UpdateRequest) error {
+	err := r.db.Table("pengguna").Where("id = ?", ID).Updates(req).Error
 	return err
 }

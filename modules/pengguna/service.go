@@ -4,7 +4,7 @@ type Service interface {
 	Create(pengguna Pengguna) (Pengguna, error)
 	GetAll() ([]Pengguna, error)
 	GetByID(ID string) (Pengguna, error)
-	UpdateByID(ID string, input interface{}) error
+	UpdateByID(ID string, req *UpdateRequest) error
 }
 type service struct {
 	repository Repository
@@ -28,7 +28,7 @@ func (s *service) GetByID(ID string) (Pengguna, error) {
 	return pengguna, err
 }
 
-func (s *service) UpdateByID(ID string, input interface{}) error {
-	err := s.repository.UpdateByID(ID, input)
+func (s *service) UpdateByID(ID string, req *UpdateRequest) error {
+	err := s.repository.UpdateByID(ID, req)
 	return err
 }

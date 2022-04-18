@@ -10,6 +10,7 @@ type Service interface {
 	Create(req *Pengguna) (string, bool, error)
 	GetAll() ([]Pengguna, error)
 	GetByID(ID string) (Pengguna, error)
+	GetAccount(email string, password string) (string, error)
 	UpdateByID(ID string, req *UpdateRequest) error
 }
 type service struct {
@@ -21,9 +22,9 @@ func NewService(repository Repository) *service {
 }
 
 func (s *service) Create(req *Pengguna) (string, bool, error) {
-	exists, err := s.repository.GetByEmail(req.Email)
-	if exists {
-		return "", exists, err
+	pengguna, err := s.repository.GetByEmail(req.Email)
+	if pengguna.Email == req.Email {
+		return "", true, err
 	}
 
 	req.ID = uuid.New().String()
@@ -43,6 +44,22 @@ func (s *service) GetAll() ([]Pengguna, error) {
 func (s *service) GetByID(ID string) (Pengguna, error) {
 	pengguna, err := s.repository.GetByID(ID)
 	return pengguna, err
+}
+
+func (s *service) GetAccount(email string, pass string) (string, error) {
+	pengguna, err := s.repository.GetByEmail(email)
+	if err != nil {
+		return "", err
+	}
+
+	match := password.CheckPasswordHash(pengguna.Password, pass)
+	if pengguna.Email != email && !match {
+		return "", err
+	}
+
+	token := "token hahahah"
+
+	return token, err
 }
 
 func (s *service) UpdateByID(ID string, req *UpdateRequest) error {

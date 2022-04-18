@@ -1,10 +1,6 @@
 package pengguna
 
 import (
-	//"errors"
-
-	//"strconv"
-
 	"yukbayar-rpll-be/helpers/response"
 
 	"github.com/gin-gonic/gin"
@@ -93,4 +89,22 @@ func (con *controller) Register(c *gin.Context) {
 		res.Data = map[string]interface{}{"uuid": uuid}
 		response.SendSuccessResponse(c, res)
 	}
+}
+
+func (con *controller) Login(c *gin.Context) {
+	req := new(LoginRequest)
+
+	if err := c.Bind(req); err != nil {
+		response.SendErrorResponse(c, response.Response{
+			Message: "Failed to bind",
+			Data:    err.Error(),
+		})
+	}
+
+	//token, err := "token"
+
+	var res response.Response
+	res.Message = "Login user success"
+	res.Data = "some fucking jwt token or some shit."
+	response.SendSuccessResponse(c, res)
 }

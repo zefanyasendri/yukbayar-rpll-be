@@ -12,6 +12,11 @@ type Pengguna struct {
 	TipePengguna string `gorm:"type:varchar(255);column:tipepengguna;default:Pengguna" form:"tipePengguna" json:"tipePengguna"`
 }
 
+type LoginRequest struct {
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
+}
+
 type UpdateRequest struct {
 	Email    string `form:"email" json:"email"`
 	Nama     string `form:"nama" json:"nama"`

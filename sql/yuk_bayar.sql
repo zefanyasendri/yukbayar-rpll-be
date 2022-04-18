@@ -3,36 +3,36 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 CREATE TABLE `diskon` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `kode` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
-  `id_pengguna` int(6) DEFAULT NULL
+  `id_pengguna` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `kategorilayanan` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `kategori` varchar(255) NOT NULL,
-  `id_varian` int(6) NOT NULL
+  `id_varian` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `layanan` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `jenis` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
-  `id_kategorilayanan` int(6) NOT NULL
+  `id_kategorilayanan` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `mitra` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `alamat` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `noTelpon` varchar(255) NOT NULL,
   `pemilikBisnis` varchar(255) NOT NULL,
-  `id_layanan` int(6) NOT NULL
+  `id_layanan` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `pengguna` (
-  `id` int(6) NOT NULL,
+  `id` varchar(12) NOT NULL,
   `email` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `noTelpon` varchar(255) NOT NULL,
@@ -44,24 +44,24 @@ CREATE TABLE `pengguna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `transaksi` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `totalHarga` int(10) NOT NULL,
-  `id_pengguna` int(6) NOT NULL,
-  `id_layanan` int(6) NOT NULL
+  `id_pengguna` varchar(6) NOT NULL,
+  `id_layanan` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `varian` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `harga` int(10) NOT NULL,
   `jenis` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `wallettopup` (
-  `id` int(6) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `kodeYukPay` varchar(255) NOT NULL,
   `metode` varchar(255) NOT NULL,
   `nominal` int(10) NOT NULL,
-  `id_pengguna` int(6) NOT NULL
+  `id_pengguna` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE `diskon`
@@ -94,30 +94,6 @@ ALTER TABLE `varian`
 ALTER TABLE `wallettopup`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pengguna` (`id_pengguna`);
-
-ALTER TABLE `diskon`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `kategorilayanan`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `layanan`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `mitra`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `pengguna`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `transaksi`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `varian`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `wallettopup`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `diskon`
   ADD CONSTRAINT `diskon_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`);

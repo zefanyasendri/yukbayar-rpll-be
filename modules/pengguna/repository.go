@@ -8,7 +8,7 @@ type Repository interface {
 	Create(req *Pengguna) error
 	GetAll() ([]Pengguna, error)
 	GetByID(ID string) (Pengguna, error)
-	GetByEmail(ID string) (bool, error)
+	GetByEmail(ID string) (Pengguna, error)
 	UpdateByID(ID string, req *UpdateRequest) error
 }
 
@@ -39,11 +39,11 @@ func (r *repository) GetByID(ID string) (Pengguna, error) {
 	return pengguna, err
 }
 
-func (r *repository) GetByEmail(email string) (bool, error) {
-	var exists bool
+func (r *repository) GetByEmail(email string) (Pengguna, error) {
+	var pengguna Pengguna
 
-	err := r.db.Table("pengguna").Select("count(*) > 0").Where("email = ?", email).Find(&exists).Error
-	return exists, err
+	err := r.db.Table("pengguna").Where("email = ?", email).Scan(&pengguna).Error
+	return pengguna, err
 }
 
 func (r *repository) UpdateByID(ID string, req *UpdateRequest) error {

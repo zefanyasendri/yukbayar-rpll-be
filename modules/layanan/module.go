@@ -1,7 +1,7 @@
 package layanan
 
 import (
-	"yukbayar-rpll-be/models/kategoriLayanan"
+	"yukbayar-rpll-be/modules/kategoriLayanan"
 )
 
 type Layanan struct {

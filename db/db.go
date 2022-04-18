@@ -1,16 +1,30 @@
 package db
 
 import (
-	"database/sql"
-	"log"
-
-	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 )
 
-func Connect() *sql.DB {
-	db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/yuk_bayar?parseTime=true&loc=Asia%2FJakarta")
+func Connect() *gorm.DB {
+	dsn := "root:@tcp(localhost:3306)/yuk_bayar?charset=utf8mb4&parseTime=true&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
-		log.Fatal(err)
+		panic(err.Error())
 	}
 	return db
+}
+
+func Disconnect(db *gorm.DB) {
+	dbSQL, err := db.DB()
+	if err != nil {
+		panic(err.Error())
+	}
+	dbSQL.Close()
 }

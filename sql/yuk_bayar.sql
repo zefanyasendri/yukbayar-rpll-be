@@ -1,7 +1,3 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
 CREATE TABLE `diskon` (
   `id` varchar(6) NOT NULL,
   `kode` varchar(255) NOT NULL,
@@ -60,7 +56,7 @@ CREATE TABLE `wallettopup` (
   `id` varchar(6) NOT NULL,
   `kodeYukPay` varchar(255) NOT NULL,
   `metode` varchar(255) NOT NULL,
-  `nominal` int(10) NOT NULL,
+  `nominal` float(10) NOT NULL,
   `id_pengguna` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

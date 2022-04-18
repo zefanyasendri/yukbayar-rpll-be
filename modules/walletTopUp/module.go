@@ -1,10 +1,10 @@
 package walletTopUp
 
 type WalletTopUp struct {
-	ID         int    `form:"id" json:"id"`
-	KodeYukPay string `form:"kodeYukPay" json:"kodeYukPay"`
-	Metode     string `form:"metode" json:"metode"`
-	Nominal    int    `form:"nominal" json:"nominal"`
+	ID         int     `form:"id" json:"id"`
+	KodeYukPay string  `form:"kodeYukPay" json:"kodeYukPay"`
+	Metode     string  `form:"metode" json:"metode"`
+	Nominal    float32 `form:"nominal" json:"nominal"`
 }
 
 type WalletTopUpResponse struct {

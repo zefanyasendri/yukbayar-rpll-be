@@ -1,8 +1,8 @@
 package transaksi
 
 import (
-	"yukbayar-rpll-be/models/layanan"
-	"yukbayar-rpll-be/models/pengguna"
+	"yukbayar-rpll-be/modules/layanan"
+	"yukbayar-rpll-be/modules/pengguna"
 )
 
 type Transaksi struct {

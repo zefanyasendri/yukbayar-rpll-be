@@ -29,6 +29,6 @@ func main() {
 
 	routes.Routes(router, db)
 
-	router.Run()
+	router.Run(":8000")
 	fmt.Println("Connected to port 8080")
 }

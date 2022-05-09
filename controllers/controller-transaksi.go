@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"yukbayar-rpll-be/helpers"
 	"yukbayar-rpll-be/services"
 
@@ -18,7 +17,6 @@ func NewTransaksiController(transaksiService services.TransaksiService) *transak
 
 func (con *transaksiController) GetTransaksi(c *gin.Context) {
 	transactions, err := con.transaksiService.GetAll()
-	fmt.Println(transactions[0].Pengguna)
 	if err != nil {
 		helpers.SendErrorResponse(c, helpers.Response{
 			Message: "Error fetching layanan",

@@ -21,6 +21,6 @@ func NewTransaksiRepository(db *gorm.DB) *transaksiRepository {
 func (r *transaksiRepository) GetAll() ([]models.Transaksi, error) {
 	var transactions []models.Transaksi
 
-	err := r.db.Table("transaksi").Select("transaksi.id_transaksi, transaksi.id_pengguna, pengguna.nama, varian.jenis, varian.harga, transaksi.tanggal, transaksi.status").Joins("join varian on transaksi.id_varian=varian.id").Joins("join pengguna on transaksi.id_pengguna=pengguna.id").Scan(&transactions).Error
+	err := r.db.Table("transaksi").Select("transaksi.id_transaksi, transaksi.id_pengguna, pengguna.nama, varian.jenis, transaksi.totalHarga, transaksi.tanggal, transaksi.status").Joins("join varian on transaksi.id_varian=varian.id").Joins("join pengguna on transaksi.id_pengguna=pengguna.id").Scan(&transactions).Error
 	return transactions, err
 }

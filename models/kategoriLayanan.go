@@ -3,7 +3,7 @@ package models
 type KategoriLayanan struct {
 	ID       string   `form:"id" json:"id"`
 	Kategori string   `form:"kategori" json:"kategori"`
-	Varian   []Varian `form:"varian" json:"varian"`
+	Varian   []Varian `gorm:"references:Varian.ID" form:"varian" json:"varian"`
 }
 
 /* Contoh

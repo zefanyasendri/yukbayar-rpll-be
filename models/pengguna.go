@@ -12,6 +12,11 @@ type Pengguna struct {
 	TipePengguna string `gorm:"type:varchar(255);column:tipepengguna;default:Pengguna" form:"tipePengguna" json:"tipePengguna"`
 }
 
+type TransaksiPengguna struct {
+	ID   string
+	Nama string
+}
+
 type PenggunaLoginRequest struct {
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`

@@ -38,9 +38,12 @@ CREATE TABLE `pengguna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `transaksi` (
-  `id` varchar(6) NOT NULL,
+  `id_transaksi` varchar(6) NOT NULL,
+  `id_pengguna` varchar(32) NOT NULL,
   `totalHarga` int(10) NOT NULL,
-  `id_varian` varchar(6) NOT NULL
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `id_varian` varchar(6) NOT NULL,
+  `status` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `varian` (
@@ -77,8 +80,9 @@ ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `transaksi_ibfk_1` (`id_varian`);
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `transaksi_ibfk_1` (`id_varian`),
+  ADD KEY `transaksi_ibfk_2` (`id_pengguna`);
 
 ALTER TABLE `varian`
   ADD PRIMARY KEY (`id`),
@@ -98,7 +102,8 @@ ALTER TABLE `mitra`
   ADD CONSTRAINT `mitra_ibfk_1` FOREIGN KEY (`id_layanan`) REFERENCES `layanan` (`id`);
 
 ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_varian`) REFERENCES `varian` (`id`);
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_varian`) REFERENCES `varian` (`id`),
+  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`);
 
 ALTER TABLE `varian`
   ADD CONSTRAINT `varian_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategorilayanan` (`id`);

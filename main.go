@@ -27,8 +27,10 @@ func main() {
 		MaxAge: 12 * time.Hour,
 	}))
 
+	fmt.Println(time.Now())
+
 	routes.Routes(router, db)
 
 	router.Run(":8000")
-	fmt.Println("Connected to port 8080")
+	fmt.Println("Connected to port 8000")
 }

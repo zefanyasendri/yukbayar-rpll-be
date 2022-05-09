@@ -4,8 +4,6 @@ import (
 	"yukbayar-rpll-be/controllers"
 	"yukbayar-rpll-be/repositories"
 	"yukbayar-rpll-be/services"
-	"yukbayar-rpll-be/modules/pengguna"
-	"yukbayar-rpll-be/modules/walletTopUp"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -31,10 +29,10 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	transaksiRepository := repositories.NewTransaksiRepository(db)
 	transaksiService := services.NewTransaksiService(transaksiRepository)
 	transaksiController := controllers.NewTransaksiController(transaksiService)
-  
-	topupRepository := walletTopUp.NewRepository(db)
-	topupService := walletTopUp.NewService(topupRepository)
-	topupController := walletTopUp.NewController(topupService)
+
+	topUpRepository := repositories.NewTopUpRepository(db)
+	topUpService := services.NewTopUpService(topUpRepository)
+	topUpController := controllers.NewTopUpController(topUpService)
 
 	root := route.Group("/")
 	{
@@ -55,7 +53,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 
 	topups := route.Group("/topups")
 	{
-		topups.POST("/topup", topupController.InsertNewTopup)
-		topups.PUT("/:id", topupController.UpdateSaldoUser)
+		topups.POST("/topup", topUpController.InsertNewTopup)
+		topups.PUT("/:id", topUpController.UpdateSaldoUser)
 	}
 }

@@ -1,13 +1,18 @@
 package models
 
+import "time"
+
 type Transaksi struct {
-	ID         int        `form:"id" json:"id"`
-	Pengguna   []Pengguna `form:"pengguna" json:"pengguna"`
-	TotalHarga int        `form:"totalHarga" json:"totalHarga"`
-	Layanan    []Layanan  `form:"layanan" json:"layanan"`
+	ID_Transaksi     string    `form:"id_transaksi" json:"id_transaksi"`
+	ID_Pengguna      string    `form:"id_pengguna" json:"id_pengguna"`
+	Pengguna         string    `gorm:"column:nama" form:"nama" json:"nama"`
+	Varian           string    `gorm:"column:jenis" form:"varian" json:"varian"`
+	TotalHarga       int       `gorm:"column:harga" form:"totalHarga" json:"totalHarga"`
+	TanggalTransaksi time.Time `gorm:"column:tanggal" form:"tanggal" json:"tanggal"`
+	Status           string    `form:"status" json:"status"`
 }
 
-type TransaksiResponse struct {
-	Message string      `form:"message" json:"message"`
-	Data    []Transaksi `form:"data" json:"data"`
-}
+/*
+contoh
+INET-1, uuid-kont-1, Benzefa, Internet
+*/

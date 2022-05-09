@@ -1,9 +1,8 @@
 package models
 
 type Layanan struct {
-	ID              string            `form:"id" json:"id"`
-	KategoriLayanan []KategoriLayanan `form:"kategoriLayanan" json:"kategoriLayanan"`
-	Nama            string            `form:"nama" json:"nama"`
+	ID   string `form:"id" json:"id"`
+	Nama string `form:"nama" json:"nama"`
 }
 
 /* Contoh

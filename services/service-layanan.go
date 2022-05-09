@@ -6,9 +6,7 @@ import (
 )
 
 type LayananService interface {
-	Create(req *models.Layanan) (string, bool, error)
 	GetAll() ([]models.Layanan, error)
-	GetByID(ID string) (models.Layanan, error)
 }
 
 type layananService struct {
@@ -19,12 +17,7 @@ func NewLayananService(repositoryLayanan repositories.LayananRepository) *layana
 	return &layananService{repositoryLayanan}
 }
 
-func (s *layananService) Create(req *models.Layanan) (string, bool, error) {
-	layanan, err := s.layananRepository.GetByID(req.ID)
-	if layanan.ID == req.ID {
-		return "", true, err
-	}
-
-	err = s.layananRepository.Create(req)
-	return req.ID, false, err
+func (s *layananService) GetAll() ([]models.Layanan, error) {
+	varians, err := s.layananRepository.GetAll()
+	return varians, err
 }

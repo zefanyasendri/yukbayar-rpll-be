@@ -22,12 +22,22 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	kategoriLayananService := services.NewKategoriLayananService(kategoriLayananRepository)
 	kategoriLayananController := controllers.NewKategoriLayananController(kategoriLayananService)
 
+	layananRepository := repositories.NewLayananRepository(db)
+	layananService := services.NewLayananService(layananRepository)
+	layananController := controllers.NewLayananController(layananService)
+
+	transaksiRepository := repositories.NewTransaksiRepository(db)
+	transaksiService := services.NewTransaksiService(transaksiRepository)
+	transaksiController := controllers.NewTransaksiController(transaksiService)
+
 	root := route.Group("/")
 	{
 		root.POST("/register", penggunaController.Register)
 		root.GET("/login", penggunaController.Login)
 		root.GET("/varian/:id", varianController.GetVarian)
 		root.GET("/kategori/:id", kategoriLayananController.GetKategori)
+		root.GET("/layanan", layananController.GetLayanan)
+		root.GET("/transaksi", transaksiController.GetTransaksi)
 	}
 
 	users := route.Group("/users")

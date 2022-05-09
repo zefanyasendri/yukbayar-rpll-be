@@ -27,6 +27,8 @@ func main() {
 		MaxAge: 12 * time.Hour,
 	}))
 
+	fmt.Println(time.Now())
+
 	routes.Routes(router, db)
 
 	router.Run(":8000")

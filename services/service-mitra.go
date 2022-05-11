@@ -1,6 +1,7 @@
 package services
 
 import (
+	"strconv"
 	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/repositories"
 )
@@ -12,19 +13,23 @@ type MitraService interface {
 }
 
 type mitraService struct {
-	repository repositories.MitraRepository
+	mitraRepository repositories.MitraRepository
 }
 
-func NewMitraService(repository repositories.MitraRepository) *mitraService {
-	return &mitraService{repository}
+func NewMitraService(mitraRepository repositories.MitraRepository) *mitraService {
+	return &mitraService{mitraRepository}
 }
 
 func (s *mitraService) Create(req *models.Mitra) (models.Mitra, error) {
-	mitra, err := s.repository.Create(req)
+	num := s.mitraRepository.GetCount()
+
+	result := strconv.Itoa(int(num) + 1)
+	req.ID = "WTP" + "-" + result
+	mitra, err := s.mitraRepository.Create(req)
 	return mitra, err
 }
 
 func (s *mitraService) GetAll() ([]models.Mitra, error) {
-	mitras, err := s.repository.GetAll()
+	mitras, err := s.mitraRepository.GetAll()
 	return mitras, err
 }

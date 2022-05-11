@@ -22,12 +22,12 @@ func (con *kategoriLayananController) GetKategori(c *gin.Context) {
 	kategoriLayanan.Varian, err = con.kategoriLayananService.GetIDByKategori(id)
 
 	if kategoriLayanan.ID == "" {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Kategori ID not found",
 			Data:    nil,
 		})
 	} else if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Error fetching kategori",
 			Data:    err.Error(),
 		})

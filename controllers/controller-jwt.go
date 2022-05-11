@@ -13,7 +13,7 @@ func AuthorizeJWT(jwtService services.JWTService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
-			helpers.SendErrorResponse(c, helpers.Response{
+			helpers.SendBadRequestResponse(c, helpers.Response{
 				Message: "Token not found",
 				Data:    nil,
 			})
@@ -26,7 +26,7 @@ func AuthorizeJWT(jwtService services.JWTService) gin.HandlerFunc {
 			log.Println("Claim[issuer]: ", claims["issuer"])
 		} else {
 			log.Println(err)
-			helpers.SendErrorResponse(c, helpers.Response{
+			helpers.SendBadRequestResponse(c, helpers.Response{
 				Message: "Token not valid",
 				Data:    err.Error(),
 			})

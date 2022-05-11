@@ -9,6 +9,6 @@ type Mitra struct {
 	PemilikBisnis  string `gorm:"type:varchar(255);column:pemilikBisnis" form:"pemilikBisnis" json:"pemilikBisnis"`
 	BidangUsaha    string `gorm:"type:varchar(255);column:bidangUsaha" form:"bidangUsaha" json:"bidangUsaha"`
 	BadanUsaha     string `gorm:"type:varchar(255);column:badanUsaha" form:"badanUsaha" json:"badanUsaha"`
-	NamaPerusahaan string `gorm:"type:varchar(255);column:namaPerusahaan" form:"namaPerusahaan" json:"naamPerusahaan"`
+	NamaPerusahaan string `gorm:"type:varchar(255);column:namaPerusahaan" form:"namaPerusahaan" json:"namaPerusahaan"`
 	//Layanan       []Layanan `form:"layanan" json:"layanan"`
 }

@@ -10,6 +10,7 @@ type MitraRepository interface {
 	Create(req *models.Mitra) (models.Mitra, error)
 	//Create(req *models.Mitra) error
 	GetAll() ([]models.Mitra, error)
+	GetCount() int64
 	// GetByIdLayanan(ID string) (models.Mitra, error)
 }
 
@@ -33,6 +34,12 @@ func (r *mitraRepository) GetAll() ([]models.Mitra, error) {
 
 	err := r.db.Table("mitra").Find(&mitras).Error
 	return mitras, err
+}
+
+func (r *mitraRepository) GetCount() int64 {
+	var num int64
+	r.db.Table("mitra").Count(&num)
+	return num
 }
 
 // func (r *mitraRepository) GetByIdLayanan(ID string) (models.Mitra, error) {

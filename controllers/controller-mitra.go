@@ -28,12 +28,6 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 
 	mitra, err := con.service.Create(req)
 
-	// if exists {
-	// 	helpers.SendErrorResponse(c, helpers.Response{
-	// 		Message: "Failed to create mitra",
-	// 		Data:    "Mitra already exist",
-	// 	})
-	// } else
 	if err != nil {
 		helpers.SendErrorResponse(c, helpers.Response{
 			Message: "Failed to create mitra",

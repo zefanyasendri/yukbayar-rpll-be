@@ -7,6 +7,6 @@ type Mitra struct {
 	Email         string `form:"email" json:"email"`
 	NoTelpon      string `gorm:"type:varchar(255);column:noTelpon" form:"noTelpon" json:"noTelpon"`
 	PemilikBisnis string `gorm:"type:varchar(255);column:pemilikBisnis" form:"pemilikBisnis" json:"pemilikBisnis"`
-	BidangUsaha   string `gorm:"type:varchar(255);column:bidangUsaha" form:"bidangUsaha" json:"bidangUsaha"`
+	JenisUsaha    string `gorm:"type:varchar(255);column:jenisUsaha" form:"jenisUsaha" json:"jenisUsaha"`
 	//Layanan       []Layanan `form:"layanan" json:"layanan"`
 }

@@ -23,7 +23,7 @@ CREATE TABLE `mitra` (
   `email` varchar(255) NOT NULL,
   `noTelpon` varchar(255) NOT NULL,
   `pemilikBisnis` varchar(255) NOT NULL,
-  `bidangUsaha` varchar(255) NOT NULL
+  `jenisUsaha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `pengguna` (

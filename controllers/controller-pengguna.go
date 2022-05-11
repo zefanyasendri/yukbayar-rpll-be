@@ -120,10 +120,27 @@ func (con *penggunaController) Login(c *gin.Context) {
 		})
 	}
 
-	//token, err := "token"
+	pengguna, match, err := con.penggunaService.GetAccount(req.Email, req.Password)
 
-	var res helpers.Response
-	res.Message = "Login user success"
-	res.Data = "some fucking jwt token or some shit."
-	helpers.SendSuccessResponse(c, res)
+	if pengguna.Email == "" {
+		helpers.SendNoContentResponse(c, helpers.Response{
+			Message: "User ID not found",
+			Data:    nil,
+		})
+	} else if !match {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Password doesn't match",
+			Data:    nil,
+		})
+	} else if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Error retrieving pengguna",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Welcome!"
+		res.Data = pengguna
+		helpers.SendSuccessResponse(c, res)
+	}
 }

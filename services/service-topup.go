@@ -32,6 +32,8 @@ func (s *topUpService) Create(req *models.TopUp) (string, string, error) {
 
 	req.KodeYukPay = strconv.Itoa(rand.Int())
 
+	req.TanggalTopUp = time.Now()
+
 	err := s.topUpRepository.Create(req)
 
 	return req.ID, req.KodeYukPay, err

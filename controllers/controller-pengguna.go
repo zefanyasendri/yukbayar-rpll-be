@@ -21,7 +21,7 @@ func (con *penggunaController) GetUserData(c *gin.Context) {
 
 	pengguna, err := con.penggunaService.GetByID(id)
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "User ID not found",
 			Data:    err.Error(),
 		})
@@ -38,7 +38,7 @@ func (con *penggunaController) GetAllData(c *gin.Context) {
 	penggunas, err := con.penggunaService.GetAll()
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})
@@ -55,7 +55,7 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 	req := new(models.PenggunaUpdateRequest)
 	if err := c.Bind(req); err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
@@ -65,7 +65,7 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 	err := con.penggunaService.UpdateByID(id, req)
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to update",
 			Data:    err.Error(),
 		})
@@ -84,7 +84,7 @@ func (con *penggunaController) Register(c *gin.Context) {
 	req := new(models.Pengguna)
 
 	if err := c.Bind(req); err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
@@ -93,12 +93,12 @@ func (con *penggunaController) Register(c *gin.Context) {
 	uuid, isExist, err := con.penggunaService.Create(req)
 
 	if isExist {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to create account",
 			Data:    "Email already exist",
 		})
 	} else if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to create account",
 			Data:    err.Error(),
 		})
@@ -114,7 +114,7 @@ func (con *penggunaController) Login(c *gin.Context) {
 	req := new(models.PenggunaLoginRequest)
 
 	if err := c.Bind(req); err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})

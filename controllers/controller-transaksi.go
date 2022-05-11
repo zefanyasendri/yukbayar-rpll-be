@@ -18,7 +18,7 @@ func NewTransaksiController(transaksiService services.TransaksiService) *transak
 func (con *transaksiController) GetTransaksi(c *gin.Context) {
 	transactions, err := con.transaksiService.GetAll()
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Error fetching layanan",
 			Data:    err.Error(),
 		})
@@ -33,7 +33,7 @@ func (con *transaksiController) GetTransaksi(c *gin.Context) {
 func (con *transaksiController) GetTotalHarga(c *gin.Context) {
 	totalHarga, err := con.transaksiService.GetTotalHarga()
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Error get total harga",
 			Data:    err.Error(),
 		})

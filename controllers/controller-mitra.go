@@ -20,7 +20,7 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 	req := new(models.Mitra)
 
 	if err := c.Bind(req); err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
@@ -29,7 +29,7 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 	mitra, err := con.service.Create(req)
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to create mitra",
 			Data:    err.Error(),
 		})
@@ -45,7 +45,7 @@ func (con *mitracontroller) GetAllMitra(c *gin.Context) {
 	mitras, err := con.service.GetAll()
 
 	if len(mitras) == 0 {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Empty mitras",
 			Data:    err.Error(),
 		})

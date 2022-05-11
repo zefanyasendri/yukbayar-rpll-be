@@ -10,7 +10,7 @@ import (
 
 type PenggunaService interface {
 	Create(req *models.Pengguna) (string, bool, error)
-	GetAll() ([]models.Pengguna, error)
+	GetAll() ([]models.PenggunaResponse, error)
 	GetByID(ID string) (models.Pengguna, error)
 	GetAccount(email string, password string) (string, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) error
@@ -38,7 +38,7 @@ func (s *penggunaService) Create(req *models.Pengguna) (string, bool, error) {
 	return req.ID, false, err
 }
 
-func (s *penggunaService) GetAll() ([]models.Pengguna, error) {
+func (s *penggunaService) GetAll() ([]models.PenggunaResponse, error) {
 	penggunas, err := s.penggunaRepository.GetAll()
 	return penggunas, err
 }

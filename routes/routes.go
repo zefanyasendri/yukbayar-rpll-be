@@ -41,7 +41,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	root := route.Group("/")
 	{
 		root.POST("/register", penggunaController.Register)
-		root.GET("/login", penggunaController.Login)
+		root.POST("/login", penggunaController.Login)
 		root.GET("/varian/:id", varianController.GetVarian)
 		root.GET("/kategori/:id", kategoriLayananController.GetKategori)
 		root.GET("/layanan", layananController.GetLayanan)

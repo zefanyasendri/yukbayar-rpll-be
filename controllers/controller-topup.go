@@ -23,7 +23,7 @@ func (con *topUpController) InsertNewTopup(c *gin.Context) {
 	req := new(models.TopUp)
 
 	if err := c.Bind(req); err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
@@ -32,7 +32,7 @@ func (con *topUpController) InsertNewTopup(c *gin.Context) {
 	id, kode, err := con.topUpService.Create(req)
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to insert data",
 			Data:    err.Error(),
 		})
@@ -50,7 +50,7 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 	req := new(models.Pengguna)
 
 	if err := c.Bind(req); err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
@@ -60,7 +60,7 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 	updatedAmount, err := con.topUpService.UpdateSaldoByID(id, req.SaldoYukPay)
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to update",
 			Data:    err.Error(),
 		})

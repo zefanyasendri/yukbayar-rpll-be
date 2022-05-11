@@ -20,12 +20,12 @@ func (con *varianController) GetVarian(c *gin.Context) {
 
 	varian, err := con.varianService.GetByID(id)
 	if varian.ID == "" {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Varian ID not found",
 			Data:    nil,
 		})
 	} else if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Error fetching varian",
 			Data:    nil,
 		})

@@ -15,6 +15,7 @@ type TopUpRepository interface {
 	GetByPenggunaID(IdPengguna string) ([]models.TopUp, error)
 	GetSaldoByID(ID string) (models.Pengguna, error)
 	UpdateSaldoByID(ID string, amount int) error
+	GetByID(ID string) ([]models.TopUp, error)
 }
 
 type topUpRepository struct {
@@ -46,6 +47,14 @@ func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUp, er
 	var topups []models.TopUp
 
 	err := r.db.Table("wallettopup").Where("idPengguna = ?", IdPengguna).Scan(&topups).Error
+
+	return topups, err
+}
+
+func (r *topUpRepository) GetByID(ID string) ([]models.TopUp, error) {
+	var topups []models.TopUp
+
+	err := r.db.Table("wallettopup").Where("id = ?", ID).Scan(&topups).Error
 
 	return topups, err
 }

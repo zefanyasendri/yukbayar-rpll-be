@@ -13,6 +13,7 @@ type TopUpService interface {
 	GetAll() ([]models.TopUp, error)
 	GetByPenggunaID(IdPengguna string) ([]models.TopUp, error)
 	UpdateSaldoByID(ID string, amount int) (int, error)
+	GetByID(ID string) ([]models.TopUp, error)
 }
 
 type topUpService struct {
@@ -46,6 +47,11 @@ func (s *topUpService) GetAll() ([]models.TopUp, error) {
 
 func (s *topUpService) GetByPenggunaID(IdPengguna string) ([]models.TopUp, error) {
 	topups, err := s.topUpRepository.GetByPenggunaID(IdPengguna)
+	return topups, err
+}
+
+func (s *topUpService) GetByID(ID string) ([]models.TopUp, error) {
+	topups, err := s.topUpRepository.GetByID(ID)
 	return topups, err
 }
 

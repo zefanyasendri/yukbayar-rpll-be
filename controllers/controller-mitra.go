@@ -26,14 +26,15 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 		})
 	}
 
-	idMitra, exists, err := con.service.Create(req)
+	mitra, err := con.service.Create(req)
 
-	if exists {
-		helpers.SendErrorResponse(c, helpers.Response{
-			Message: "Failed to create mitra",
-			Data:    "Mitra already exist",
-		})
-	} else if err != nil {
+	// if exists {
+	// 	helpers.SendErrorResponse(c, helpers.Response{
+	// 		Message: "Failed to create mitra",
+	// 		Data:    "Mitra already exist",
+	// 	})
+	// } else
+	if err != nil {
 		helpers.SendErrorResponse(c, helpers.Response{
 			Message: "Failed to create mitra",
 			Data:    err.Error(),
@@ -41,7 +42,7 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 	} else {
 		var res helpers.Response
 		res.Message = "Update mitra data success"
-		res.Data = map[string]interface{}{"id": idMitra}
+		res.Data = mitra
 		helpers.SendSuccessResponse(c, res)
 	}
 }

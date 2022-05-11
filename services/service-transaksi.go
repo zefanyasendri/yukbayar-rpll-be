@@ -7,6 +7,7 @@ import (
 
 type TransaksiService interface {
 	GetAll() ([]models.Transaksi, error)
+	GetTotalHarga() (int, error)
 }
 
 type transaksiService struct {
@@ -20,4 +21,18 @@ func NewTransaksiService(transaksiRepository repositories.TransaksiRepository) *
 func (r *transaksiService) GetAll() ([]models.Transaksi, error) {
 	transactions, err := r.transaksiRepository.GetAll()
 	return transactions, err
+}
+
+func (r *transaksiService) GetTotalHarga() (int, error) {
+	transactions, err := r.transaksiRepository.GetTotalHarga()
+
+	var totalHarga int
+
+	totalHarga = 0
+
+	for i := 0; i < len(transactions); i++ {
+		totalHarga += transactions[i].TotalHarga
+	}
+
+	return totalHarga, err
 }

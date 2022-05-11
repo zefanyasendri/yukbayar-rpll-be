@@ -29,3 +29,18 @@ func (con *transaksiController) GetTransaksi(c *gin.Context) {
 		helpers.SendSuccessResponse(c, res)
 	}
 }
+
+func (con *transaksiController) GetTotalHarga(c *gin.Context) {
+	totalHarga, err := con.transaksiService.GetTotalHarga()
+	if err != nil {
+		helpers.SendErrorResponse(c, helpers.Response{
+			Message: "Error get total harga",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get total harga success"
+		res.Data = totalHarga
+		helpers.SendSuccessResponse(c, res)
+	}
+}

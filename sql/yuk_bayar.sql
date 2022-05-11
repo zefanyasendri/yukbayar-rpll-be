@@ -58,7 +58,8 @@ CREATE TABLE `wallettopup` (
   `kodeYukPay` varchar(255) NOT NULL,
   `metode` varchar(255) NOT NULL,
   `nominal` float NOT NULL,
-  `id_pengguna` varchar(12) NOT NULL
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `id_pengguna` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE `diskon`

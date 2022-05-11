@@ -13,6 +13,7 @@ CREATE TABLE `kategorilayanan` (
 
 CREATE TABLE `layanan` (
   `id` varchar(6) NOT NULL,
+  `id_mitra` varchar(6) NOT NULL,
   `nama` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -22,7 +23,7 @@ CREATE TABLE `mitra` (
   `email` varchar(255) NOT NULL,
   `noTelpon` varchar(255) NOT NULL,
   `pemilikBisnis` varchar(255) NOT NULL,
-  `id_layanan` varchar(6) NOT NULL
+  `bidangUsaha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `pengguna` (
@@ -71,11 +72,11 @@ ALTER TABLE `kategorilayanan`
   ADD KEY `id_varian` (`id_layanan`);
 
 ALTER TABLE `layanan`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_mitra` (`id_mitra`);
 
 ALTER TABLE `mitra`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_layanan` (`id_layanan`);
+  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`id`);
@@ -99,8 +100,8 @@ ALTER TABLE `diskon`
 ALTER TABLE `kategorilayanan`
   ADD CONSTRAINT `kategorilayanan_ibfk_1` FOREIGN KEY (`id_layanan`) REFERENCES `layanan` (`id`);
 
-ALTER TABLE `mitra`
-  ADD CONSTRAINT `mitra_ibfk_1` FOREIGN KEY (`id_layanan`) REFERENCES `layanan` (`id`);
+ALTER TABLE `layanan`
+  ADD CONSTRAINT `layanan_ibfk_1` FOREIGN KEY (`id_mitra`) REFERENCES `mitra` (`id`);
 
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_varian`) REFERENCES `varian` (`id`),

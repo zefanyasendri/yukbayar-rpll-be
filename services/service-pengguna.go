@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"yukbayar-rpll-be/helpers"
 	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/repositories"
@@ -12,7 +13,7 @@ type PenggunaService interface {
 	Create(req *models.Pengguna) (string, bool, error)
 	GetAll() ([]models.Pengguna, error)
 	GetByID(ID string) (models.Pengguna, error)
-	GetAccount(email string, password string) (string, error)
+	GetAccount(email string, password string) (models.Pengguna, bool, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) error
 }
 type penggunaService struct {
@@ -48,20 +49,12 @@ func (s *penggunaService) GetByID(ID string) (models.Pengguna, error) {
 	return pengguna, err
 }
 
-func (s *penggunaService) GetAccount(email string, pass string) (string, error) {
+func (s *penggunaService) GetAccount(email string, pass string) (models.Pengguna, bool, error) {
 	pengguna, err := s.penggunaRepository.GetByEmail(email)
-	if err != nil {
-		return "", err
-	}
-
 	match := helpers.CheckPasswordHash(pengguna.Password, pass)
-	if pengguna.Email != email && !match {
-		return "", err
-	}
-
-	token := "token"
-
-	return token, err
+	fmt.Println(pengguna.Password)
+	fmt.Println(match)
+	return pengguna, match, err
 }
 
 func (s *penggunaService) UpdateByID(ID string, req *models.PenggunaUpdateRequest) error {

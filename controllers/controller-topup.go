@@ -73,3 +73,40 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 	helpers.SendSuccessResponse(c, res)
 
 }
+
+func (con *topUpController) GetAll(c *gin.Context) {
+	topups, err := con.topUpService.GetAll()
+
+	if err != nil {
+		helpers.SendErrorResponse(c, helpers.Response{
+			Message: "Cannot retrive user data",
+			Data:    err.Error(),
+		})
+		return
+	}
+
+	var res helpers.Response
+	res.Message = "Get topup data success"
+	res.Data = topups
+	helpers.SendSuccessResponse(c, res)
+
+}
+
+func (con *topUpController) GetByPenggunaID(c *gin.Context) {
+	id := c.Param("id")
+	topup, err := con.topUpService.GetByPenggunaID(id)
+
+	if err != nil {
+		helpers.SendErrorResponse(c, helpers.Response{
+			Message: "Cannot retrive user data",
+			Data:    err.Error(),
+		})
+		return
+	}
+
+	var res helpers.Response
+	res.Message = "Get topup data success"
+	res.Data = topup
+	helpers.SendSuccessResponse(c, res)
+
+}

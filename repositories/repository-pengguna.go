@@ -8,7 +8,7 @@ import (
 
 type PenggunaRepository interface {
 	Create(req *models.Pengguna) error
-	GetAll() ([]models.PenggunaResponse, error)
+	GetAll() ([]models.Pengguna, error)
 	GetByID(ID string) (models.Pengguna, error)
 	GetByEmail(ID string) (models.Pengguna, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) error
@@ -27,10 +27,10 @@ func (r *penggunaRepository) Create(req *models.Pengguna) error {
 	return err
 }
 
-func (r *penggunaRepository) GetAll() ([]models.PenggunaResponse, error) {
-	var penggunas []models.PenggunaResponse
+func (r *penggunaRepository) GetAll() ([]models.Pengguna, error) {
+	var penggunas []models.Pengguna
 
-	err := r.db.Table("pengguna").Select("id", "nama", "email", "noTelpon", "tglLahir", "gender").Find(&penggunas).Error
+	err := r.db.Table("pengguna").Find(&penggunas).Error
 	return penggunas, err
 }
 

@@ -20,7 +20,7 @@ func (con *layananController) GetLayanan(c *gin.Context) {
 	layanans, err := con.layananService.GetAll()
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Error fetching layanan",
 			Data:    err.Error(),
 		})

@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	// "yukbayar-rpll-be/modules/pengguna"
-
 	"yukbayar-rpll-be/models"
 
 	"gorm.io/gorm"
@@ -10,12 +8,13 @@ import (
 
 type TopUpRepository interface {
 	Create(req *models.TopUp) error
-	GetAll() ([]models.TopUp, error)
+	GetAll() ([]models.TopUpOutput, error)
 	GetDataCount() int64
-	GetByPenggunaID(IdPengguna string) ([]models.TopUp, error)
+	GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error)
 	GetSaldoByID(ID string) (models.Pengguna, error)
 	UpdateSaldoByID(ID string, amount int) error
-	GetByID(ID string) ([]models.TopUp, error)
+	GetByID(ID string) (models.TopUp, error)
+	GetTelponById(ID string) (models.Pengguna, error)
 }
 
 type topUpRepository struct {
@@ -37,24 +36,24 @@ func (r *topUpRepository) GetDataCount() int64 {
 	return num
 }
 
-func (r *topUpRepository) GetAll() ([]models.TopUp, error) {
-	var topups []models.TopUp
-	err := r.db.Table("wallettopup").Find(&topups).Error
+func (r *topUpRepository) GetAll() ([]models.TopUpOutput, error) {
+	var topups []models.TopUpOutput
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Scan(&topups).Error
 	return topups, err
 }
 
-func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUp, error) {
-	var topups []models.TopUp
+func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error) {
+	var topups []models.TopUpOutput
 
-	err := r.db.Table("wallettopup").Where("idPengguna = ?", IdPengguna).Scan(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id_pengguna = ?", IdPengguna).Scan(&topups).Error
 
 	return topups, err
 }
 
-func (r *topUpRepository) GetByID(ID string) ([]models.TopUp, error) {
-	var topups []models.TopUp
+func (r *topUpRepository) GetByID(ID string) (models.TopUp, error) {
+	var topups models.TopUp
 
-	err := r.db.Table("wallettopup").Where("id = ?", ID).Scan(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id = ?", ID).Find(&topups).Error
 
 	return topups, err
 }
@@ -63,6 +62,12 @@ func (r *topUpRepository) GetSaldoByID(ID string) (models.Pengguna, error) {
 	var pengguna models.Pengguna
 	err := r.db.Table("pengguna").Select("saldoYukPay").Where("id = ?", ID).Find(&pengguna).Error
 
+	return pengguna, err
+}
+
+func (r *topUpRepository) GetTelponById(ID string) (models.Pengguna, error) {
+	var pengguna models.Pengguna
+	err := r.db.Table("pengguna").Select("noTelpon").Where("id = ?", ID).Find(&pengguna).Error
 	return pengguna, err
 }
 

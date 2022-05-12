@@ -69,6 +69,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	{
 		transaksis.GET("/", transaksiController.GetTransaksi)
 		transaksis.POST("/", transaksiController.CreateTransaksi)
+		transaksis.GET("/:id", transaksiController.GetTransaksiById)
 	}
 
 	mitras := route.Group("/mitras")

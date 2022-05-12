@@ -5,8 +5,6 @@ import (
 	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/services"
 
-	// "yukbayar-rpll-be/modules/pengguna"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -54,7 +52,6 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
-		return
 	}
 
 	updatedAmount, err := con.topUpService.UpdateSaldoByID(id, req.SaldoYukPay)
@@ -64,49 +61,54 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 			Message: "Failed to update",
 			Data:    err.Error(),
 		})
-		return
+	} else {
+		var res helpers.Response
+
+		res.Message = "Update user data success"
+		res.Data = updatedAmount
+		helpers.SendSuccessResponse(c, res)
 	}
-	var res helpers.Response
-
-	res.Message = "Update user data success"
-	res.Data = updatedAmount
-	helpers.SendSuccessResponse(c, res)
-
 }
 
 func (con *topUpController) GetAll(c *gin.Context) {
 	topups, err := con.topUpService.GetAll()
 
-	if err != nil {
-		helpers.SendBadRequestResponse(c, helpers.Response{
-			Message: "Cannot retrive user data",
+	if len(topups) == 0 {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Empty Data",
+			Data:    nil,
+		})
+	} else if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive topup data",
 			Data:    err.Error(),
 		})
-		return
+	} else {
+		var res helpers.Response
+		res.Message = "Get topup data success"
+		res.Data = topups
+		helpers.SendSuccessResponse(c, res)
 	}
-
-	var res helpers.Response
-	res.Message = "Get topup data success"
-	res.Data = topups
-	helpers.SendSuccessResponse(c, res)
-
 }
 
 func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	id := c.Param("id")
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
-	if err != nil {
-		helpers.SendBadRequestResponse(c, helpers.Response{
-			Message: "Cannot retrive user data",
+	if len(topup) == 0 {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Topup with id =" + " " + id + " " + "not found",
+			Data:    nil,
+		})
+	} else if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive topup data",
 			Data:    err.Error(),
 		})
-		return
+	} else {
+		var res helpers.Response
+		res.Message = "Get topup data success"
+		res.Data = topup
+		helpers.SendSuccessResponse(c, res)
 	}
-
-	var res helpers.Response
-	res.Message = "Get topup data success"
-	res.Data = topup
-	helpers.SendSuccessResponse(c, res)
-
 }

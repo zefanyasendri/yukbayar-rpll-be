@@ -63,7 +63,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	topups := route.Group("/topups")
 	{
 		topups.POST("/topup", topUpController.InsertNewTopup)
-		topups.PUT("/:id", topUpController.UpdateSaldoUser)
+		topups.PUT("/:idPengguna/:id", topUpController.UpdateSaldoUser)
 		topups.GET("/:id", topUpController.GetByPenggunaID)
 	}
 

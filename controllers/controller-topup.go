@@ -91,13 +91,13 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
 	if len(topup) == 0 {
-		helpers.SendBadRequestResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Topup with id =" + " " + id + " " + "not found",
 			Data:    nil,
 		})
 	} else if err != nil {
 		helpers.SendNoContentResponse(c, helpers.Response{
-			Message: "Cannot retrive user data",
+			Message: "Cannot retrive topup data",
 			Data:    err.Error(),
 		})
 	} else {

@@ -35,12 +35,12 @@ func (con *transaksiController) GetTransaksiById(c *gin.Context) {
 	transactions, err := con.transaksiService.GetTransaksiById(id)
 
 	if len(transactions) == 0 {
-		helpers.SendBadRequestResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Transaksi with id =" + " " + id + " " + "not found",
 			Data:    nil,
 		})
 	} else if err != nil {
-		helpers.SendBadRequestResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Error fetching layanan",
 			Data:    err.Error(),
 		})

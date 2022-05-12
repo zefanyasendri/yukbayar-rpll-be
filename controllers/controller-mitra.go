@@ -26,7 +26,7 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 		})
 	}
 
-	namaPerusahaan, exists, err := con.service.Create(req)
+	mitra, exists, err := con.service.Create(req)
 
 	if exists {
 		helpers.SendBadRequestResponse(c, helpers.Response{
@@ -41,7 +41,7 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 	} else {
 		var res helpers.Response
 		res.Message = "Update mitra data success"
-		res.Data = namaPerusahaan
+		res.Data = mitra
 		helpers.SendSuccessResponse(c, res)
 	}
 }

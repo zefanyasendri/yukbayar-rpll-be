@@ -46,6 +46,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 		root.GET("/kategori/:id", kategoriLayananController.GetKategori)
 		root.GET("/layanan", layananController.GetLayanan)
 		root.GET("/transaksi", transaksiController.GetTransaksi)
+		root.GET("/transaksi/:id", transaksiController.GetTransaksiById)
 		root.GET("/mitra", mitraController.GetAllMitra)
 		root.GET("/pendapatan", transaksiController.GetTotalHarga)
 		root.GET("/topup", topUpController.GetAll)

@@ -78,7 +78,7 @@ func (con *topUpController) GetAll(c *gin.Context) {
 	topups, err := con.topUpService.GetAll()
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})
@@ -97,7 +97,7 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})

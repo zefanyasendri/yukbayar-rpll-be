@@ -44,6 +44,7 @@ func (con *topUpController) InsertNewTopup(c *gin.Context) {
 }
 
 func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
+	idPengguna := c.Param("idPengguna")
 	id := c.Param("id")
 	req := new(models.Pengguna)
 
@@ -54,7 +55,7 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 		})
 	}
 
-	updatedAmount, err := con.topUpService.UpdateSaldoByID(id, req.SaldoYukPay)
+	updatedAmount, err := con.topUpService.UpdateSaldoByID(idPengguna, id, req.SaldoYukPay)
 
 	if err != nil {
 		helpers.SendBadRequestResponse(c, helpers.Response{

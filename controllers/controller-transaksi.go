@@ -53,7 +53,28 @@ func (con *transaksiController) CreateTransaksi(c *gin.Context) {
 	res.Message = "transaction created"
 	res.Data = transaksi
 	helpers.SendSuccessResponse(c, res)
+}
 
+func (con *transaksiController) GetTransaksiById(c *gin.Context) {
+	id := c.Param("id")
+	transactions, err := con.transaksiService.GetTransaksiById(id)
+
+	if len(transactions) == 0 {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Transaksi with id =" + " " + id + " " + "not found",
+			Data:    nil,
+		})
+	} else if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Error fetching layanan",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get transaction data success"
+		res.Data = transactions
+		helpers.SendSuccessResponse(c, res)
+	}
 }
 
 func (con *transaksiController) GetTotalHarga(c *gin.Context) {

@@ -10,10 +10,10 @@ import (
 
 type TopUpService interface {
 	Create(req *models.TopUp) (string, string, error)
-	GetAll() ([]models.TopUp, error)
-	GetByPenggunaID(IdPengguna string) ([]models.TopUp, error)
+	GetAll() ([]models.TopUpOutput, error)
+	GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error)
 	UpdateSaldoByID(ID string, amount int) (int, error)
-	GetByID(ID string) ([]models.TopUp, error)
+	GetByID(ID string) (models.TopUp, error)
 }
 
 type topUpService struct {
@@ -31,7 +31,9 @@ func (s *topUpService) Create(req *models.TopUp) (string, string, error) {
 	req.ID = "WTP" + "-" + result
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	req.KodeYukPay = strconv.Itoa(rand.Int())
+	noTelp, _ := s.topUpRepository.GetTelponById(req.ID_Pengguna)
+
+	req.KodeYukPay = "6969" + noTelp.NoTelpon
 
 	req.TanggalTopUp = time.Now()
 
@@ -40,17 +42,17 @@ func (s *topUpService) Create(req *models.TopUp) (string, string, error) {
 	return req.ID, req.KodeYukPay, err
 }
 
-func (s *topUpService) GetAll() ([]models.TopUp, error) {
+func (s *topUpService) GetAll() ([]models.TopUpOutput, error) {
 	topups, err := s.topUpRepository.GetAll()
 	return topups, err
 }
 
-func (s *topUpService) GetByPenggunaID(IdPengguna string) ([]models.TopUp, error) {
+func (s *topUpService) GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error) {
 	topups, err := s.topUpRepository.GetByPenggunaID(IdPengguna)
 	return topups, err
 }
 
-func (s *topUpService) GetByID(ID string) ([]models.TopUp, error) {
+func (s *topUpService) GetByID(ID string) (models.TopUp, error) {
 	topups, err := s.topUpRepository.GetByID(ID)
 	return topups, err
 }

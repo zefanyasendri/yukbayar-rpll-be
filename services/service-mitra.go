@@ -7,8 +7,7 @@ import (
 )
 
 type MitraService interface {
-	Create(req *models.Mitra) (models.Mitra, error)
-	//Create(req *models.Mitra) error
+	Create(req *models.Mitra) (string, bool, error)
 	GetAll() ([]models.Mitra, error)
 }
 
@@ -20,13 +19,19 @@ func NewMitraService(mitraRepository repositories.MitraRepository) *mitraService
 	return &mitraService{mitraRepository}
 }
 
-func (s *mitraService) Create(req *models.Mitra) (models.Mitra, error) {
+func (s *mitraService) Create(req *models.Mitra) (string, bool, error) {
 	num := s.mitraRepository.GetCount()
 
 	result := strconv.Itoa(int(num) + 1)
-	req.ID = "WTP" + "-" + result
-	mitra, err := s.mitraRepository.Create(req)
-	return mitra, err
+	req.ID = result
+	mitra, err := s.mitraRepository.GetNamaPerusahaan(req.NamaPerusahaan)
+
+	if mitra.NamaPerusahaan == req.NamaPerusahaan {
+		return "", true, err
+	}
+	err = s.mitraRepository.Create(req)
+
+	return req.NamaPerusahaan, false, err
 }
 
 func (s *mitraService) GetAll() ([]models.Mitra, error) {

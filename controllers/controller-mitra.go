@@ -26,15 +26,14 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 		})
 	}
 
-	mitra, err := con.service.Create(req)
+	namaPerusahaan, exists, err := con.service.Create(req)
 
-	// if exists {
-	// 	helpers.SendErrorResponse(c, helpers.Response{
-	// 		Message: "Failed to create mitra",
-	// 		Data:    "Mitra already exist",
-	// 	})
-	// } else
-	if err != nil {
+	if exists {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Failed to create mitra",
+			Data:    "Mitra already exist",
+		})
+	} else if err != nil {
 		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to create mitra",
 			Data:    err.Error(),
@@ -42,7 +41,7 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 	} else {
 		var res helpers.Response
 		res.Message = "Update mitra data success"
-		res.Data = mitra
+		res.Data = namaPerusahaan
 		helpers.SendSuccessResponse(c, res)
 	}
 }
@@ -55,10 +54,15 @@ func (con *mitracontroller) GetAllMitra(c *gin.Context) {
 			Message: "Empty mitras",
 			Data:    err.Error(),
 		})
+	} else if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive mitra data",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get mitras success"
+		res.Data = mitras
+		helpers.SendSuccessResponse(c, res)
 	}
-
-	var res helpers.Response
-	res.Message = "Get mitras success"
-	res.Data = mitras
-	helpers.SendSuccessResponse(c, res)
 }

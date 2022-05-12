@@ -9,6 +9,7 @@ import (
 type TransaksiService interface {
 	Create(req *models.NewTransaksi) (models.NewTransaksi, error)
 	GetAll() ([]models.Transaksi, error)
+	GetTransaksiById(ID string) ([]models.Transaksi, error)
 	GetTotalHarga() (int, error)
 }
 
@@ -32,6 +33,11 @@ func (r *transaksiService) Create(req *models.NewTransaksi) (models.NewTransaksi
 
 func (r *transaksiService) GetAll() ([]models.Transaksi, error) {
 	transactions, err := r.transaksiRepository.GetAll()
+	return transactions, err
+}
+
+func (r *transaksiService) GetTransaksiById(ID string) ([]models.Transaksi, error) {
+	transactions, err := r.transaksiRepository.GetTransaksiById(ID)
 	return transactions, err
 }
 

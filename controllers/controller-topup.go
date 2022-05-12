@@ -113,3 +113,20 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 		helpers.SendSuccessResponse(c, res)
 	}
 }
+
+func (con *topUpController) GetBySaldoByID(c *gin.Context) {
+	id := c.Param("idPengguna")
+	saldo, err := con.topUpService.GetBySaldoByID(id)
+
+	if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive saldo data",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get saldo data success"
+		res.Data = saldo
+		helpers.SendSuccessResponse(c, res)
+	}
+}

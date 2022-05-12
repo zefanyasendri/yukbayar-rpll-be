@@ -11,8 +11,8 @@ type TopUpRepository interface {
 	GetAll() ([]models.TopUpOutput, error)
 	GetDataCount() int64
 	GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error)
-	GetSaldoByID(ID string) (models.Pengguna, error)
-	UpdateSaldoByID(ID string, amount int) error
+	GetSaldoByID(ID string) (models.SaldoPengguna, error)
+	UpdateSaldoByID(IDPengguna string, ID string, amount int) error
 	GetByID(ID string) (models.TopUp, error)
 	GetTelponById(ID string) (models.Pengguna, error)
 }
@@ -58,9 +58,9 @@ func (r *topUpRepository) GetByID(ID string) (models.TopUp, error) {
 	return topups, err
 }
 
-func (r *topUpRepository) GetSaldoByID(ID string) (models.Pengguna, error) {
-	var pengguna models.Pengguna
-	err := r.db.Table("pengguna").Select("saldoYukPay").Where("id = ?", ID).Find(&pengguna).Error
+func (r *topUpRepository) GetSaldoByID(ID string) (models.SaldoPengguna, error) {
+	var pengguna models.SaldoPengguna
+	err := r.db.Table("pengguna").Where("id = ?", ID).Find(&pengguna).Error
 
 	return pengguna, err
 }
@@ -71,7 +71,8 @@ func (r *topUpRepository) GetTelponById(ID string) (models.Pengguna, error) {
 	return pengguna, err
 }
 
-func (r *topUpRepository) UpdateSaldoByID(ID string, amount int) error {
-	err := r.db.Table("pengguna").Where("id = ?", ID).Update("saldoYukPay", amount).Error
+func (r *topUpRepository) UpdateSaldoByID(IDPengguna string, ID string, amount int) error {
+	err := r.db.Table("pengguna").Where("id = ?", IDPengguna).Update("saldoYukPay", amount).Error
+	err = r.db.Table("wallettopup").Where("id_pengguna", IDPengguna).Where("id", ID).Update("status", "Paid").Error
 	return err
 }

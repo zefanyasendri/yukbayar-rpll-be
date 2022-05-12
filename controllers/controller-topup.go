@@ -90,7 +90,7 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	id := c.Param("id")
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
-	if len(topup) == 0 {
+  if len(topup) == 0 {
 		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Topup with id =" + " " + id + " " + "not found",
 			Data:    nil,

@@ -21,7 +21,7 @@ func (con *penggunaController) GetUserData(c *gin.Context) {
 
 	pengguna, err := con.penggunaService.GetByID(id)
 	if err != nil {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "User ID not found",
 			Data:    err.Error(),
 		})
@@ -62,7 +62,8 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	err := con.penggunaService.UpdateByID(id, req)
+	pengguna, match, err := con.penggunaService.UpdateByID(id, req)
+	var res helpers.Response
 
 	if err != nil {
 		helpers.SendBadRequestResponse(c, helpers.Response{
@@ -71,13 +72,32 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 		})
 		return
 	}
+	if !match {
+		if req.OldPassword == "" && req.Password == "" {
+			res.Message = "Update user data success"
+			res.Data = pengguna
+			helpers.SendSuccessResponse(c, res)
+		} else {
+			helpers.SendBadRequestResponse(c, helpers.Response{
+				Message: "Password incorrect",
+				Data:    nil,
+			})
+		}
+		return
+	} else {
+		if req.Password == "" {
+			helpers.SendBadRequestResponse(c, helpers.Response{
+				Message: "You didn't put a new password",
+				Data:    nil,
+			})
+		} else {
+			res.Message = "Update user data success"
+			res.Data = pengguna
+			helpers.SendSuccessResponse(c, res)
+		}
+		return
+	}
 
-	pengguna, err := con.penggunaService.GetByID(id)
-	var res helpers.Response
-
-	res.Message = "Update user data success"
-	res.Data = pengguna
-	helpers.SendSuccessResponse(c, res)
 }
 
 func (con *penggunaController) Register(c *gin.Context) {
@@ -120,10 +140,27 @@ func (con *penggunaController) Login(c *gin.Context) {
 		})
 	}
 
-	//token, err := "token"
+	pengguna, match, err := con.penggunaService.GetAccount(req.Email, req.Password)
 
-	var res helpers.Response
-	res.Message = "Login user success"
-	res.Data = "some fucking jwt token or some shit."
-	helpers.SendSuccessResponse(c, res)
+	if pengguna.Email == "" {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "User ID not found",
+			Data:    nil,
+		})
+	} else if !match {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Password doesn't match",
+			Data:    nil,
+		})
+	} else if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Error retrieving pengguna",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Welcome!"
+		res.Data = pengguna
+		helpers.SendSuccessResponse(c, res)
+	}
 }

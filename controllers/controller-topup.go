@@ -74,12 +74,12 @@ func (con *topUpController) GetAll(c *gin.Context) {
 	topups, err := con.topUpService.GetAll()
 
 	if len(topups) == 0 {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "Empty Data",
 			Data:    nil,
 		})
 	} else if err != nil {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "Cannot retrive topup data",
 			Data:    err.Error(),
 		})
@@ -96,12 +96,12 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
 	if len(topup) == 0 {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "Topup with id =" + " " + id + " " + "not found",
 			Data:    nil,
 		})
 	} else if err != nil {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "Cannot retrive topup data",
 			Data:    err.Error(),
 		})

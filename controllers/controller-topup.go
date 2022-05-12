@@ -73,9 +73,14 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 func (con *topUpController) GetAll(c *gin.Context) {
 	topups, err := con.topUpService.GetAll()
 
-	if err != nil {
+	if len(topups) == 0 {
 		helpers.SendNoContentResponse(c, helpers.Response{
-			Message: "Cannot retrive user data",
+			Message: "Empty Data",
+			Data:    nil,
+		})
+	} else if err != nil {
+		helpers.SendNoContentResponse(c, helpers.Response{
+			Message: "Cannot retrive topup data",
 			Data:    err.Error(),
 		})
 	} else {

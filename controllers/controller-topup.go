@@ -61,13 +61,13 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 			Message: "Failed to update",
 			Data:    err.Error(),
 		})
+	} else {
+		var res helpers.Response
+
+		res.Message = "Update user data success"
+		res.Data = updatedAmount
+		helpers.SendSuccessResponse(c, res)
 	}
-	var res helpers.Response
-
-	res.Message = "Update user data success"
-	res.Data = updatedAmount
-	helpers.SendSuccessResponse(c, res)
-
 }
 
 func (con *topUpController) GetAll(c *gin.Context) {
@@ -78,29 +78,32 @@ func (con *topUpController) GetAll(c *gin.Context) {
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get topup data success"
+		res.Data = topups
+		helpers.SendSuccessResponse(c, res)
 	}
-
-	var res helpers.Response
-	res.Message = "Get topup data success"
-	res.Data = topups
-	helpers.SendSuccessResponse(c, res)
-
 }
 
 func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	id := c.Param("id")
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
-	if err != nil {
+	if len(topup) == 0 {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Topup with id =" + " " + id + " " + "not found",
+			Data:    nil,
+		})
+	} else if err != nil {
 		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get topup data success"
+		res.Data = topup
+		helpers.SendSuccessResponse(c, res)
 	}
-
-	var res helpers.Response
-	res.Message = "Get topup data success"
-	res.Data = topup
-	helpers.SendSuccessResponse(c, res)
-
 }

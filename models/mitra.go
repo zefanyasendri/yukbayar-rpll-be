@@ -1,8 +1,7 @@
 package models
 
 type Mitra struct {
-	ID string `form:"id" json:"id"`
-	//ID_Layanan    string    `gorm:"type:varchar(6);column:id_layanan" form:"IdLayanan" json:"IdLayanan"`
+	ID             string `form:"id" json:"id"`
 	Alamat         string `form:"alamat" json:"alamat"`
 	Email          string `form:"email" json:"email"`
 	NoTelpon       string `gorm:"type:varchar(255);column:noTelpon" form:"noTelpon" json:"noTelpon"`
@@ -10,5 +9,4 @@ type Mitra struct {
 	BidangUsaha    string `gorm:"type:varchar(255);column:bidangUsaha" form:"bidangUsaha" json:"bidangUsaha"`
 	BadanUsaha     string `gorm:"type:varchar(255);column:badanUsaha" form:"badanUsaha" json:"badanUsaha"`
 	NamaPerusahaan string `gorm:"type:varchar(255);column:namaPerusahaan" form:"namaPerusahaan" json:"namaPerusahaan"`
-	//Layanan       []Layanan `form:"layanan" json:"layanan"`
 }

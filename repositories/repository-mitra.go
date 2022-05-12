@@ -8,10 +8,8 @@ import (
 
 type MitraRepository interface {
 	Create(req *models.Mitra) (models.Mitra, error)
-	//Create(req *models.Mitra) error
 	GetAll() ([]models.Mitra, error)
 	GetCount() int64
-	// GetByIdLayanan(ID string) (models.Mitra, error)
 }
 
 type mitraRepository struct {
@@ -41,11 +39,3 @@ func (r *mitraRepository) GetCount() int64 {
 	r.db.Table("mitra").Count(&num)
 	return num
 }
-
-// func (r *mitraRepository) GetByIdLayanan(ID string) (models.Mitra, error) {
-// 	var mitras models.Mitra
-
-// 	err := r.db.Table("mitra").Where("id_layanan = ?", ID).Scan(&mitras).Error
-
-// 	return mitras, err
-// }

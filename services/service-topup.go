@@ -12,7 +12,7 @@ type TopUpService interface {
 	Create(req *models.TopUp) (string, string, error)
 	GetAll() ([]models.TopUpOutput, error)
 	GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error)
-	UpdateSaldoByID(ID string, amount int) (int, error)
+	UpdateSaldoByID(IDPengguna string, ID string, amount int) (int, error)
 	GetByID(ID string) (models.TopUp, error)
 }
 
@@ -57,9 +57,9 @@ func (s *topUpService) GetByID(ID string) (models.TopUp, error) {
 	return topups, err
 }
 
-func (s *topUpService) UpdateSaldoByID(ID string, amount int) (int, error) {
-	beforeAmount, _ := s.topUpRepository.GetSaldoByID(ID)
+func (s *topUpService) UpdateSaldoByID(IDPengguna string, ID string, amount int) (int, error) {
+	beforeAmount, _ := s.topUpRepository.GetSaldoByID(IDPengguna)
 	updateAmount := beforeAmount.SaldoYukPay + amount
-	err := s.topUpRepository.UpdateSaldoByID(ID, updateAmount)
+	err := s.topUpRepository.UpdateSaldoByID(IDPengguna, ID, updateAmount)
 	return updateAmount, err
 }

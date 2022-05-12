@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"strconv"
 	"yukbayar-rpll-be/helpers"
 	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/services"
@@ -162,6 +163,24 @@ func (con *penggunaController) Login(c *gin.Context) {
 	} else {
 		var res helpers.Response
 		res.Message = "Welcome!"
+		res.Data = pengguna
+		helpers.SendSuccessResponse(c, res)
+	}
+}
+
+func (con *penggunaController) UpdateSaldo(c *gin.Context) {
+	id := c.Param("id")
+	saldo, _ := strconv.Atoi(c.PostForm("saldo"))
+
+	pengguna, err := con.penggunaService.UpdateSaldoByID(id, saldo)
+	if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Error updating saldo",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Update saldo successful"
 		res.Data = pengguna
 		helpers.SendSuccessResponse(c, res)
 	}

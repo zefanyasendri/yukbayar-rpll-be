@@ -44,6 +44,7 @@ func (con *topUpController) InsertNewTopup(c *gin.Context) {
 }
 
 func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
+	idPengguna := c.Param("idPengguna")
 	id := c.Param("id")
 	req := new(models.Pengguna)
 
@@ -54,7 +55,7 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 		})
 	}
 
-	updatedAmount, err := con.topUpService.UpdateSaldoByID(id, req.SaldoYukPay)
+	updatedAmount, err := con.topUpService.UpdateSaldoByID(idPengguna, id, req.SaldoYukPay)
 
 	if err != nil {
 		helpers.SendBadRequestResponse(c, helpers.Response{
@@ -109,6 +110,40 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 		var res helpers.Response
 		res.Message = "Get topup data success"
 		res.Data = topup
+		helpers.SendSuccessResponse(c, res)
+	}
+}
+
+func (con *topUpController) GetByTopUpID(c *gin.Context) {
+	id := c.Param("id")
+	topup, err := con.topUpService.GetByID(id)
+
+	if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive topup data",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get topup data success"
+		res.Data = topup
+		helpers.SendSuccessResponse(c, res)
+	}
+}
+
+func (con *topUpController) GetBySaldoByID(c *gin.Context) {
+	id := c.Param("idPengguna")
+	saldo, err := con.topUpService.GetBySaldoByID(id)
+
+	if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive saldo data",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get saldo data success"
+		res.Data = saldo
 		helpers.SendSuccessResponse(c, res)
 	}
 }

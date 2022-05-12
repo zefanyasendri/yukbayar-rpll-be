@@ -30,6 +30,12 @@ type PenggunaUpdateRequest struct {
 	Password    string `gorm:"column:password" form:"newPassword" json:"newPassword"`
 }
 
+type SaldoPengguna struct {
+	ID          string `gorm:"primary_key" form:"id" json:"id"`
+	Nama        string `form:"nama" json:"nama"`
+	SaldoYukPay int    `gorm:"type:int;column:saldoYukPay;default:0" form:"saldoYukPay" json:"saldoYukPay"`
+}
+
 // type LoginResponse struct {
 // 	Message string `form:"message" json:"message"`
 // 	Type    string `form:"penggunaType" json:"penggunaType"`

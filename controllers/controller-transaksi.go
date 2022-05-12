@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"yukbayar-rpll-be/helpers"
+	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/services"
 
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,31 @@ func (con *transaksiController) GetTransaksi(c *gin.Context) {
 		res.Data = transactions
 		helpers.SendSuccessResponse(c, res)
 	}
+}
+
+func (con *transaksiController) CreateTransaksi(c *gin.Context) {
+	req := new(models.NewTransaksi)
+	if err := c.Bind(req); err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Failed to bind",
+			Data:    err.Error(),
+		})
+		return
+	}
+
+	transaksi, err := con.transaksiService.Create(req)
+	if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Error insert transaction",
+			Data:    err.Error(),
+		})
+		return
+	}
+	var res helpers.Response
+	res.Message = "transaction created"
+	res.Data = transaksi
+	helpers.SendSuccessResponse(c, res)
+
 }
 
 func (con *transaksiController) GetTotalHarga(c *gin.Context) {

@@ -13,7 +13,7 @@ type TopUpRepository interface {
 	GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error)
 	GetSaldoByID(ID string) (models.SaldoPengguna, error)
 	UpdateSaldoByID(IDPengguna string, ID string, amount int) error
-	GetByID(ID string) (models.TopUp, error)
+	GetByID(ID string) (models.TopUpOutput, error)
 	GetTelponById(ID string) (models.Pengguna, error)
 }
 
@@ -50,8 +50,8 @@ func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUpOutp
 	return topups, err
 }
 
-func (r *topUpRepository) GetByID(ID string) (models.TopUp, error) {
-	var topups models.TopUp
+func (r *topUpRepository) GetByID(ID string) (models.TopUpOutput, error) {
+	var topups models.TopUpOutput
 
 	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id = ?", ID).Find(&topups).Error
 

@@ -48,6 +48,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 		root.GET("/mitra", mitraController.GetAllMitra)
 		root.GET("/pendapatan", transaksiController.GetTotalHarga)
 		root.GET("/topup", topUpController.GetAll)
+		root.GET("/topup/:id", topUpController.GetByTopUpID)
 	}
 
 	users := route.Group("/users")
@@ -58,10 +59,15 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 
 	}
 
+	saldo := route.Group("/saldo")
+	{
+		saldo.GET("/:idPengguna", topUpController.GetBySaldoByID)
+	}
+
 	topups := route.Group("/topups")
 	{
 		topups.POST("/topup", topUpController.InsertNewTopup)
-		topups.PUT("/:id", topUpController.UpdateSaldoUser)
+		topups.PUT("/:idPengguna/:id", topUpController.UpdateSaldoUser)
 		topups.GET("/:id", topUpController.GetByPenggunaID)
 	}
 

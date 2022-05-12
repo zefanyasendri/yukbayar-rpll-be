@@ -114,6 +114,23 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	}
 }
 
+func (con *topUpController) GetByTopUpID(c *gin.Context) {
+	id := c.Param("id")
+	topup, err := con.topUpService.GetByID(id)
+
+	if err != nil {
+		helpers.SendNotFoundResponse(c, helpers.Response{
+			Message: "Cannot retrive topup data",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get topup data success"
+		res.Data = topup
+		helpers.SendSuccessResponse(c, res)
+	}
+}
+
 func (con *topUpController) GetBySaldoByID(c *gin.Context) {
 	id := c.Param("idPengguna")
 	saldo, err := con.topUpService.GetBySaldoByID(id)

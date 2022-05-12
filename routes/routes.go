@@ -48,6 +48,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 		root.GET("/mitra", mitraController.GetAllMitra)
 		root.GET("/pendapatan", transaksiController.GetTotalHarga)
 		root.GET("/topup", topUpController.GetAll)
+		root.GET("/topup/:id", topUpController.GetByTopUpID)
 	}
 
 	users := route.Group("/users")

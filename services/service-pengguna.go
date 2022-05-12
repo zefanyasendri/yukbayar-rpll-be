@@ -12,8 +12,8 @@ type PenggunaService interface {
 	Create(req *models.Pengguna) (string, bool, error)
 	GetAll() ([]models.Pengguna, error)
 	GetByID(ID string) (models.Pengguna, error)
-	GetAccount(email string, password string) (string, error)
-	UpdateByID(ID string, req *models.PenggunaUpdateRequest) error
+	GetAccount(email string, password string) (models.Pengguna, bool, error)
+	UpdateByID(ID string, req *models.PenggunaUpdateRequest) (models.Pengguna, bool, error)
 }
 type penggunaService struct {
 	penggunaRepository repositories.PenggunaRepository
@@ -48,31 +48,29 @@ func (s *penggunaService) GetByID(ID string) (models.Pengguna, error) {
 	return pengguna, err
 }
 
-func (s *penggunaService) GetAccount(email string, pass string) (string, error) {
+func (s *penggunaService) GetAccount(email string, pass string) (models.Pengguna, bool, error) {
 	pengguna, err := s.penggunaRepository.GetByEmail(email)
-	if err != nil {
-		return "", err
-	}
-
 	match := helpers.CheckPasswordHash(pengguna.Password, pass)
-	if pengguna.Email != email && !match {
-		return "", err
-	}
-
-	token := "token"
-
-	return token, err
+	return pengguna, match, err
 }
 
-func (s *penggunaService) UpdateByID(ID string, req *models.PenggunaUpdateRequest) error {
+func (s *penggunaService) UpdateByID(ID string, req *models.PenggunaUpdateRequest) (models.Pengguna, bool, error) {
+	var match bool
 	pengguna, err := s.penggunaRepository.GetByID(ID)
 
-	if pengguna.Password != req.Password || req.Password != "" {
-		if req.Password, err = helpers.HashPassword(req.Password); err != nil {
-			return err
+	//update jika pengguna tidak mengubah password
+	if (req.OldPassword != "" && req.Password != "") || (req.OldPassword != "" && req.Password == "") {
+		match = helpers.CheckPasswordHash(pengguna.Password, req.OldPassword)
+		if match {
+			if req.Password != "" {
+				req.Password, _ = helpers.HashPassword(req.Password)
+			}
+			req.OldPassword = ""
 		}
 	}
-
-	err = s.penggunaRepository.UpdateByID(ID, req)
-	return err
+	if (req.OldPassword == "" && req.Password == "") || match {
+		err = s.penggunaRepository.UpdateByID(ID, req)
+	}
+	pengguna, err = s.penggunaRepository.GetByID(ID)
+	return pengguna, match, err
 }

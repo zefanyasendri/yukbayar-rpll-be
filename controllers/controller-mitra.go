@@ -28,6 +28,12 @@ func (con *mitracontroller) InsertMitra(c *gin.Context) {
 
 	mitra, err := con.service.Create(req)
 
+	// if exists {
+	// 	helpers.SendErrorResponse(c, helpers.Response{
+	// 		Message: "Failed to create mitra",
+	// 		Data:    "Mitra already exist",
+	// 	})
+	// } else
 	if err != nil {
 		helpers.SendBadRequestResponse(c, helpers.Response{
 			Message: "Failed to create mitra",
@@ -45,7 +51,7 @@ func (con *mitracontroller) GetAllMitra(c *gin.Context) {
 	mitras, err := con.service.GetAll()
 
 	if len(mitras) == 0 {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "Empty mitras",
 			Data:    err.Error(),
 		})

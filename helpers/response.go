@@ -27,6 +27,6 @@ func SendUnauthorzedResponse(c *gin.Context, response Response) {
 	c.JSON(http.StatusBadRequest, response)
 }
 
-func SendNoContentResponse(c *gin.Context, response Response) {
-	c.JSON(http.StatusNoContent, response)
+func SendNotFoundResponse(c *gin.Context, response Response) {
+	c.JSON(http.StatusNotFound, response)
 }

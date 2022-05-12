@@ -8,6 +8,7 @@ import (
 
 type TransaksiRepository interface {
 	GetAll() ([]models.Transaksi, error)
+	GetTransaksiById(ID string) ([]models.Transaksi, error)
 	GetTotalHarga() ([]models.Transaksi, error)
 }
 
@@ -23,6 +24,13 @@ func (r *transaksiRepository) GetAll() ([]models.Transaksi, error) {
 	var transactions []models.Transaksi
 
 	err := r.db.Table("transaksi").Select("transaksi.id_transaksi, transaksi.id_pengguna, pengguna.nama, varian.jenis, transaksi.totalHarga, transaksi.tanggal, transaksi.status").Joins("join varian on transaksi.id_varian=varian.id").Joins("join pengguna on transaksi.id_pengguna=pengguna.id").Scan(&transactions).Error
+	return transactions, err
+}
+
+func (r *transaksiRepository) GetTransaksiById(ID string) ([]models.Transaksi, error) {
+	var transactions []models.Transaksi
+
+	err := r.db.Table("transaksi").Select("transaksi.id_transaksi, transaksi.id_pengguna, pengguna.nama, varian.jenis, transaksi.totalHarga, transaksi.tanggal, transaksi.status").Joins("join varian on transaksi.id_varian=varian.id").Joins("join pengguna on transaksi.id_pengguna=pengguna.id").Where("id_pengguna = ?", ID).Scan(&transactions).Error
 	return transactions, err
 }
 

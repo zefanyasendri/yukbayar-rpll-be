@@ -5,8 +5,6 @@ import (
 	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/services"
 
-	// "yukbayar-rpll-be/modules/pengguna"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -54,7 +52,6 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 			Message: "Failed to bind",
 			Data:    err.Error(),
 		})
-		return
 	}
 
 	updatedAmount, err := con.topUpService.UpdateSaldoByID(id, req.SaldoYukPay)
@@ -64,7 +61,6 @@ func (con *topUpController) UpdateSaldoUser(c *gin.Context) {
 			Message: "Failed to update",
 			Data:    err.Error(),
 		})
-		return
 	}
 	var res helpers.Response
 
@@ -78,11 +74,10 @@ func (con *topUpController) GetAll(c *gin.Context) {
 	topups, err := con.topUpService.GetAll()
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})
-		return
 	}
 
 	var res helpers.Response
@@ -97,11 +92,10 @@ func (con *topUpController) GetByPenggunaID(c *gin.Context) {
 	topup, err := con.topUpService.GetByPenggunaID(id)
 
 	if err != nil {
-		helpers.SendErrorResponse(c, helpers.Response{
+		helpers.SendNoContentResponse(c, helpers.Response{
 			Message: "Cannot retrive user data",
 			Data:    err.Error(),
 		})
-		return
 	}
 
 	var res helpers.Response

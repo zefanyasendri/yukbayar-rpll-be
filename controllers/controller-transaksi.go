@@ -30,6 +30,22 @@ func (con *transaksiController) GetTransaksi(c *gin.Context) {
 	}
 }
 
+func (con *transaksiController) GetTransaksiById(c *gin.Context) {
+	id := c.Param("id")
+	transactions, err := con.transaksiService.GetTransaksiById(id)
+	if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Error fetching layanan",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get transaction data success"
+		res.Data = transactions
+		helpers.SendSuccessResponse(c, res)
+	}
+}
+
 func (con *transaksiController) GetTotalHarga(c *gin.Context) {
 	totalHarga, err := con.transaksiService.GetTotalHarga()
 	if err != nil {

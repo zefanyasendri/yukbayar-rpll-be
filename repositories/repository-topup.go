@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	// "yukbayar-rpll-be/modules/pengguna"
-
 	"yukbayar-rpll-be/models"
 
 	"gorm.io/gorm"

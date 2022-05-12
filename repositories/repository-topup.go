@@ -53,7 +53,7 @@ func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUpOutp
 func (r *topUpRepository) GetByID(ID string) (models.TopUpOutput, error) {
 	var topups models.TopUpOutput
 
-	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id = ?", ID).Find(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("wallettopup.id = ?", ID).Find(&topups).Error
 
 	return topups, err
 }

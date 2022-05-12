@@ -55,10 +55,15 @@ func (con *mitracontroller) GetAllMitra(c *gin.Context) {
 			Message: "Empty mitras",
 			Data:    err.Error(),
 		})
+	} else if err != nil {
+		helpers.SendNoContentResponse(c, helpers.Response{
+			Message: "Cannot retrive mitra data",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Get mitras success"
+		res.Data = mitras
+		helpers.SendSuccessResponse(c, res)
 	}
-
-	var res helpers.Response
-	res.Message = "Get mitras success"
-	res.Data = mitras
-	helpers.SendSuccessResponse(c, res)
 }

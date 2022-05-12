@@ -37,14 +37,14 @@ func (r *topUpRepository) GetDataCount() int64 {
 
 func (r *topUpRepository) GetAll() ([]models.TopUp, error) {
 	var topups []models.TopUp
-	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Scan(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Scan(&topups).Error
 	return topups, err
 }
 
 func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUp, error) {
 	var topups []models.TopUp
 
-	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id_pengguna = ?", IdPengguna).Scan(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id_pengguna = ?", IdPengguna).Scan(&topups).Error
 
 	return topups, err
 }
@@ -52,7 +52,7 @@ func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUp, er
 func (r *topUpRepository) GetByID(ID string) (models.TopUp, error) {
 	var topups models.TopUp
 
-	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id = ?", ID).Find(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id = ?", ID).Find(&topups).Error
 
 	return topups, err
 }

@@ -12,7 +12,14 @@ type Transaksi struct {
 	Status           string    `form:"status" json:"status"`
 }
 
+type NewTransaksi struct {
+	ID_Transaksi string `json:"id_transaksi"`
+	ID_Pengguna  string `form:"id_pengguna" json:"id_pengguna"`
+	TotalHarga   int    `gorm:"column:totalHarga" form:"totalHarga" json:"totalHarga"`
+	ID_varian    string `form:"id_varian" json:"id_varan"`
+}
+
 /*
 contoh
-INET-1, uuid-kont-1, Benzefa, Internet
+1, uuid-kont-1, Benzefa, PDAM memek, 102000, 12390123-12390123-123-91091,
 */

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"yukbayar-rpll-be/helpers"
 	"yukbayar-rpll-be/models"
 	"yukbayar-rpll-be/services"
@@ -61,6 +62,7 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Println(req)
 
 	pengguna, match, err := con.penggunaService.UpdateByID(id, req)
 	var res helpers.Response

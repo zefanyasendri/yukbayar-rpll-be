@@ -7,7 +7,9 @@ import (
 )
 
 type TransaksiRepository interface {
+	Create(req *models.NewTransaksi) (models.NewTransaksi, error)
 	GetAll() ([]models.Transaksi, error)
+	GetCount() int64
 	GetTotalHarga() ([]models.Transaksi, error)
 }
 
@@ -17,6 +19,21 @@ type transaksiRepository struct {
 
 func NewTransaksiRepository(db *gorm.DB) *transaksiRepository {
 	return &transaksiRepository{db}
+}
+
+func (r *transaksiRepository) Create(req *models.NewTransaksi) (models.NewTransaksi, error) {
+	err := r.db.Table("transaksi").Create(req).Error
+
+	var transaksi models.NewTransaksi
+	err = r.db.Table("transaksi").Where("id_transaksi = ?", req.ID_Transaksi).Scan(&transaksi).Error
+	return transaksi, err
+}
+
+func (r *transaksiRepository) GetCount() int64 {
+	var num int64
+
+	r.db.Table("transaksi").Count(&num)
+	return num
 }
 
 func (r *transaksiRepository) GetAll() ([]models.Transaksi, error) {

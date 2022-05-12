@@ -12,6 +12,7 @@ type PenggunaRepository interface {
 	GetByID(ID string) (models.Pengguna, error)
 	GetByEmail(ID string) (models.Pengguna, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) error
+	UpdateSaldoByID(ID string, saldo int) (models.Pengguna, error)
 }
 
 type penggunaRepository struct {
@@ -51,4 +52,12 @@ func (r *penggunaRepository) GetByEmail(email string) (models.Pengguna, error) {
 func (r *penggunaRepository) UpdateByID(ID string, req *models.PenggunaUpdateRequest) error {
 	err := r.db.Table("pengguna").Where("id = ?", ID).Updates(req).Error
 	return err
+}
+
+func (r *penggunaRepository) UpdateSaldoByID(ID string, saldo int) (models.Pengguna, error) {
+	err := r.db.Table("pengguna").Where("id = ?", ID).Update("saldoYukPay", saldo).Error
+
+	var pengguna models.Pengguna
+	err = r.db.Table("pengguna").Where("id = ?", ID).Scan(&pengguna).Error
+	return pengguna, err
 }

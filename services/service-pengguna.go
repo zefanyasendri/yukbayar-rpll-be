@@ -14,6 +14,7 @@ type PenggunaService interface {
 	GetByID(ID string) (models.Pengguna, error)
 	GetAccount(email string, password string) (models.Pengguna, bool, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) (models.Pengguna, bool, error)
+	UpdateSaldoByID(ID string, saldo int) (models.Pengguna, error)
 }
 type penggunaService struct {
 	penggunaRepository repositories.PenggunaRepository
@@ -73,4 +74,9 @@ func (s *penggunaService) UpdateByID(ID string, req *models.PenggunaUpdateReques
 	}
 	pengguna, err = s.penggunaRepository.GetByID(ID)
 	return pengguna, match, err
+}
+
+func (s *penggunaService) UpdateSaldoByID(ID string, saldo int) (models.Pengguna, error) {
+	pengguna, err := s.penggunaRepository.UpdateSaldoByID(ID, saldo)
+	return pengguna, err
 }

@@ -22,7 +22,7 @@ func (con *kategoriLayananController) GetKategori(c *gin.Context) {
 	kategoriLayanan.Varian, err = con.kategoriLayananService.GetIDByKategori(id)
 
 	if kategoriLayanan.ID == "" {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "Kategori ID not found",
 			Data:    nil,
 		})

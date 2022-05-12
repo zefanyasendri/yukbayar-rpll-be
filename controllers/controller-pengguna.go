@@ -21,7 +21,7 @@ func (con *penggunaController) GetUserData(c *gin.Context) {
 
 	pengguna, err := con.penggunaService.GetByID(id)
 	if err != nil {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "User ID not found",
 			Data:    err.Error(),
 		})
@@ -123,7 +123,7 @@ func (con *penggunaController) Login(c *gin.Context) {
 	pengguna, match, err := con.penggunaService.GetAccount(req.Email, req.Password)
 
 	if pengguna.Email == "" {
-		helpers.SendNoContentResponse(c, helpers.Response{
+		helpers.SendNotFoundResponse(c, helpers.Response{
 			Message: "User ID not found",
 			Data:    nil,
 		})

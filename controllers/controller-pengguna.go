@@ -62,7 +62,8 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	err := con.penggunaService.UpdateByID(id, req)
+	pengguna, match, err := con.penggunaService.UpdateByID(id, req)
+	var res helpers.Response
 
 	if err != nil {
 		helpers.SendBadRequestResponse(c, helpers.Response{
@@ -71,13 +72,32 @@ func (con *penggunaController) UpdateUser(c *gin.Context) {
 		})
 		return
 	}
+	if !match {
+		if req.OldPassword == "" && req.Password == "" {
+			res.Message = "Update user data success"
+			res.Data = pengguna
+			helpers.SendSuccessResponse(c, res)
+		} else {
+			helpers.SendBadRequestResponse(c, helpers.Response{
+				Message: "Password incorrect",
+				Data:    nil,
+			})
+		}
+		return
+	} else {
+		if req.Password == "" {
+			helpers.SendBadRequestResponse(c, helpers.Response{
+				Message: "You didn't put a new password",
+				Data:    nil,
+			})
+		} else {
+			res.Message = "Update user data success"
+			res.Data = pengguna
+			helpers.SendSuccessResponse(c, res)
+		}
+		return
+	}
 
-	pengguna, err := con.penggunaService.GetByID(id)
-	var res helpers.Response
-
-	res.Message = "Update user data success"
-	res.Data = pengguna
-	helpers.SendSuccessResponse(c, res)
 }
 
 func (con *penggunaController) Register(c *gin.Context) {

@@ -21,28 +21,28 @@ func NewTransaksiService(transaksiRepository repositories.TransaksiRepository) *
 	return &transaksiService{transaksiRepository}
 }
 
-func (r *transaksiService) Create(req *models.NewTransaksi) (models.NewTransaksi, error) {
-	num := r.transaksiRepository.GetCount()
+func (s *transaksiService) Create(req *models.NewTransaksi) (models.NewTransaksi, error) {
+	num := s.transaksiRepository.GetCount()
 
 	result := strconv.Itoa(int(num) + 1)
 	req.ID_Transaksi = result
 
-	transaksi, err := r.transaksiRepository.Create(req)
+	transaksi, err := s.transaksiRepository.Create(req)
 	return transaksi, err
 }
 
-func (r *transaksiService) GetAll() ([]models.Transaksi, error) {
-	transactions, err := r.transaksiRepository.GetAll()
+func (s *transaksiService) GetAll() ([]models.Transaksi, error) {
+	transactions, err := s.transaksiRepository.GetAll()
 	return transactions, err
 }
 
-func (r *transaksiService) GetTransaksiById(ID string) ([]models.Transaksi, error) {
-	transactions, err := r.transaksiRepository.GetTransaksiById(ID)
+func (s *transaksiService) GetTransaksiById(ID string) ([]models.Transaksi, error) {
+	transactions, err := s.transaksiRepository.GetTransaksiById(ID)
 	return transactions, err
 }
 
-func (r *transaksiService) GetTotalHarga() (int, error) {
-	transactions, err := r.transaksiRepository.GetTotalHarga()
+func (s *transaksiService) GetTotalHarga() (int, error) {
+	transactions, err := s.transaksiRepository.GetTotalHarga()
 
 	var totalHarga int
 

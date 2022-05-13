@@ -11,6 +11,7 @@ import (
 type PenggunaService interface {
 	Create(req *models.Pengguna) (string, bool, error)
 	GetAll() ([]models.Pengguna, error)
+	GetAllByTipePengguna(tipe string) ([]models.Pengguna, error)
 	GetByID(ID string) (models.Pengguna, error)
 	GetAccount(email string, password string) (models.Pengguna, bool, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) (models.Pengguna, bool, error)
@@ -41,6 +42,11 @@ func (s *penggunaService) Create(req *models.Pengguna) (string, bool, error) {
 
 func (s *penggunaService) GetAll() ([]models.Pengguna, error) {
 	penggunas, err := s.penggunaRepository.GetAll()
+	return penggunas, err
+}
+
+func (s *penggunaService) GetAllByTipePengguna(tipe string) ([]models.Pengguna, error) {
+	penggunas, err := s.penggunaRepository.GetAllByTipePengguna(tipe)
 	return penggunas, err
 }
 

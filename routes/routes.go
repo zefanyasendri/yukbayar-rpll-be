@@ -57,10 +57,11 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 
 	users := route.Group("/users")
 	{
-		users.GET("/:id", penggunaController.GetUserData)
 		users.GET("/", penggunaController.GetAllData)
-		users.PUT("/:id", penggunaController.UpdateUser)
-		users.PUT("/:id/saldo", penggunaController.UpdateSaldo)
+		users.GET("/type/:tipe", penggunaController.GetAllByTipePengguna)
+		users.GET("/id/:id", penggunaController.GetUserData)
+		users.PUT("/id/:id", penggunaController.UpdateUser)
+		users.PUT("/id/:id/saldo", penggunaController.UpdateSaldo)
 
 	}
 

@@ -11,7 +11,6 @@ type TransaksiService interface {
 	GetAll() ([]models.Transaksi, error)
 	GetTransaksiById(ID string) ([]models.Transaksi, error)
 	GetTotalHarga() (int, error)
-	//UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error)
 }
 
 type transaksiService struct {
@@ -29,7 +28,7 @@ func (s *transaksiService) Create(req *models.NewTransaksi) (models.NewTransaksi
 	req.ID_Transaksi = result
 
 	req.Status = "Paid"
-	transaksi, err := r.transaksiRepository.Create(req)
+	transaksi, err := s.transaksiRepository.Create(req)
 	return transaksi, err
 }
 
@@ -56,8 +55,3 @@ func (s *transaksiService) GetTotalHarga() (int, error) {
 
 	return totalHarga, err
 }
-
-// func (r *transaksiService) UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error) {
-// 	transaction, err := r.transaksiRepository.UpdateStatusTransaksi(req)
-// 	return transaction, err
-// }

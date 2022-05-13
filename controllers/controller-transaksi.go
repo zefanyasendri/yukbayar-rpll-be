@@ -91,3 +91,20 @@ func (con *transaksiController) GetTotalHarga(c *gin.Context) {
 		helpers.SendSuccessResponse(c, res)
 	}
 }
+
+func (con *transaksiController) UpdateStatusTransaksi(c *gin.Context) {
+	req := new(models.UpdateRequestTransaksi)
+	transaction, err := con.transaksiService.UpdateStatusTransaksi(req)
+	if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Error Update Status",
+			Data:    err.Error(),
+		})
+	} else {
+		var res helpers.Response
+		res.Message = "Update Success"
+		res.Data = transaction
+		helpers.SendSuccessResponse(c, res)
+	}
+
+}

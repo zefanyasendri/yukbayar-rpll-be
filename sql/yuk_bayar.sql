@@ -66,6 +66,16 @@ CREATE TABLE `wallettopup` (
   `status` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `tagihan` (
+  `id_tagihan` varchar(20) NOT NULL,
+  `id_pengguna` varchar(32) NOT NULL,
+  `nomor_tagihan` varchar(12) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `id_kategoriLayanan` varchar(6) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `keterangan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 ALTER TABLE `diskon`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pengguna` (`id_pengguna`);
@@ -97,6 +107,10 @@ ALTER TABLE `wallettopup`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pengguna` (`id_pengguna`);
 
+ALTER TABLE `tagihan`
+  ADD KEY `id_pengguna` (`id_pengguna`),
+  ADD KEY `id_kategoriLayanan` (`id_kategoriLayanan`);
+
 ALTER TABLE `diskon`
   ADD CONSTRAINT `diskon_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`);
 
@@ -115,4 +129,8 @@ ALTER TABLE `varian`
 
 ALTER TABLE `wallettopup`
   ADD CONSTRAINT `wallettopup_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`);
+
+ALTER TABLE `tagihan`
+  ADD CONSTRAINT `tagihan_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`),
+  ADD CONSTRAINT `tagihan_ibfk_2` FOREIGN KEY (`id_kategoriLayanan`) REFERENCES `kategorilayanan` (`id`);
 COMMIT;

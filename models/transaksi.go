@@ -20,18 +20,6 @@ type NewTransaksi struct {
 	Status       string `form:"status" json:"status"`
 }
 
-// type UpdateTransaksi struct {
-// 	ID_Transaksi string `json:"id_transaksi"`
-// 	ID_Pengguna  string `form:"id_pengguna" json:"id_pengguna"`
-// 	ID_varian    string `form:"id_varian" json:"id_varian"`
-// 	Status       string `form:"status" json:"status"`
-// }
-
-// type UpdateRequestTransaksi struct {
-// 	ID_Pengguna string `form:"id_pengguna" json:"id_pengguna"`
-// 	ID_varian   string `form:"id_varian" json:"id_varian"`
-// }
-
 /*
 contoh
 1, uuid-kont-1, Benzefa, PDAM memek, 102000, 12390123-12390123-123-91091,

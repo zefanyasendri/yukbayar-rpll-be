@@ -17,19 +17,20 @@ type NewTransaksi struct {
 	ID_Pengguna  string `form:"id_pengguna" json:"id_pengguna"`
 	TotalHarga   int    `gorm:"column:totalHarga" form:"totalHarga" json:"totalHarga"`
 	ID_varian    string `form:"id_varian" json:"id_varian"`
-}
-
-type UpdateTransaksi struct {
-	ID_Transaksi string `json:"id_transaksi"`
-	ID_Pengguna  string `form:"id_pengguna" json:"id_pengguna"`
-	ID_varian    string `form:"id_varian" json:"id_varian"`
 	Status       string `form:"status" json:"status"`
 }
 
-type UpdateRequestTransaksi struct {
-	ID_Pengguna string `form:"id_pengguna" json:"id_pengguna"`
-	ID_varian   string `form:"id_varian" json:"id_varian"`
-}
+// type UpdateTransaksi struct {
+// 	ID_Transaksi string `json:"id_transaksi"`
+// 	ID_Pengguna  string `form:"id_pengguna" json:"id_pengguna"`
+// 	ID_varian    string `form:"id_varian" json:"id_varian"`
+// 	Status       string `form:"status" json:"status"`
+// }
+
+// type UpdateRequestTransaksi struct {
+// 	ID_Pengguna string `form:"id_pengguna" json:"id_pengguna"`
+// 	ID_varian   string `form:"id_varian" json:"id_varian"`
+// }
 
 /*
 contoh

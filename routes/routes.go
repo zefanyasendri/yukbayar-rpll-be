@@ -86,7 +86,7 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 		transaksis.GET("/", transaksiController.GetTransaksi)
 		transaksis.POST("/", transaksiController.CreateTransaksi)
 		transaksis.GET("/:id", transaksiController.GetTransaksiById)
-		transaksis.PUT("/status", transaksiController.UpdateStatusTransaksi)
+		//transaksis.PUT("/status", transaksiController.UpdateStatusTransaksi)
 	}
 
 	mitras := route.Group("/mitras")

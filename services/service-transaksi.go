@@ -11,7 +11,7 @@ type TransaksiService interface {
 	GetAll() ([]models.Transaksi, error)
 	GetTransaksiById(ID string) ([]models.Transaksi, error)
 	GetTotalHarga() (int, error)
-	UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error)
+	//UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error)
 }
 
 type transaksiService struct {
@@ -28,6 +28,7 @@ func (r *transaksiService) Create(req *models.NewTransaksi) (models.NewTransaksi
 	result := strconv.Itoa(int(num) + 1)
 	req.ID_Transaksi = result
 
+	req.Status = "Paid"
 	transaksi, err := r.transaksiRepository.Create(req)
 	return transaksi, err
 }
@@ -56,7 +57,7 @@ func (r *transaksiService) GetTotalHarga() (int, error) {
 	return totalHarga, err
 }
 
-func (r *transaksiService) UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error) {
-	transaction, err := r.transaksiRepository.UpdateStatusTransaksi(req)
-	return transaction, err
-}
+// func (r *transaksiService) UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error) {
+// 	transaction, err := r.transaksiRepository.UpdateStatusTransaksi(req)
+// 	return transaction, err
+// }

@@ -9,6 +9,7 @@ import (
 type PenggunaRepository interface {
 	Create(req *models.Pengguna) error
 	GetAll() ([]models.Pengguna, error)
+	GetAllByTipePengguna(tipe string) ([]models.Pengguna, error)
 	GetByID(ID string) (models.Pengguna, error)
 	GetByEmail(ID string) (models.Pengguna, error)
 	UpdateByID(ID string, req *models.PenggunaUpdateRequest) error
@@ -35,6 +36,12 @@ func (r *penggunaRepository) GetAll() ([]models.Pengguna, error) {
 	return penggunas, err
 }
 
+func (r *penggunaRepository) GetAllByTipePengguna(tipe string) ([]models.Pengguna, error) {
+	var penggunas []models.Pengguna
+
+	err := r.db.Table("pengguna").Where("tipepengguna = ?", tipe).Find(&penggunas).Error
+	return penggunas, err
+}
 func (r *penggunaRepository) GetByID(ID string) (models.Pengguna, error) {
 	var pengguna models.Pengguna
 

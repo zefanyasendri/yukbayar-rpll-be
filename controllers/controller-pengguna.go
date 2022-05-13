@@ -53,6 +53,24 @@ func (con *penggunaController) GetAllData(c *gin.Context) {
 	helpers.SendSuccessResponse(c, res)
 }
 
+func (con *penggunaController) GetAllByTipePengguna(c *gin.Context) {
+	tipe := c.Param("tipe")
+	penggunas, err := con.penggunaService.GetAllByTipePengguna(tipe)
+
+	if err != nil {
+		helpers.SendBadRequestResponse(c, helpers.Response{
+			Message: "Cannot retrive user data",
+			Data:    err.Error(),
+		})
+		return
+	}
+
+	var res helpers.Response
+	res.Message = "Get user data success"
+	res.Data = penggunas
+	helpers.SendSuccessResponse(c, res)
+}
+
 func (con *penggunaController) UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 	req := new(models.PenggunaUpdateRequest)

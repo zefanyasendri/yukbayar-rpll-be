@@ -30,6 +30,10 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	transaksiService := services.NewTransaksiService(transaksiRepository)
 	transaksiController := controllers.NewTransaksiController(transaksiService)
 
+	tagihanRepository := repositories.NewTagihanRepository(db)
+	tagihanService := services.NewTagihanService(tagihanRepository)
+	tagihanController := controllers.NewTagihanController(tagihanService)
+
 	topUpRepository := repositories.NewTopUpRepository(db)
 	topUpService := services.NewTopUpService(topUpRepository)
 	topUpController := controllers.NewTopUpController(topUpService)
@@ -92,5 +96,12 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	mitras := route.Group("/mitras")
 	{
 		mitras.POST("/mitra", mitraController.InsertMitra)
+	}
+
+	tagihans := route.Group("/tagihan")
+	{
+		tagihans.POST("/", tagihanController.Create)
+		tagihans.GET("/:idKategori/:idPengguna", tagihanController.GetPendingStatus)
+		tagihans.PUT("/:id", tagihanController.UpdateStatus)
 	}
 }

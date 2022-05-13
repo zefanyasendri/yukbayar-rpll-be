@@ -38,14 +38,14 @@ func (r *topUpRepository) GetDataCount() int64 {
 
 func (r *topUpRepository) GetAll() ([]models.TopUpOutput, error) {
 	var topups []models.TopUpOutput
-	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Scan(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Order("wallettopup.tanggal DESC").Scan(&topups).Error
 	return topups, err
 }
 
 func (r *topUpRepository) GetByPenggunaID(IdPengguna string) ([]models.TopUpOutput, error) {
 	var topups []models.TopUpOutput
 
-	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id_pengguna = ?", IdPengguna).Scan(&topups).Error
+	err := r.db.Table("wallettopup").Select("wallettopup.id, pengguna.nama, wallettopup.kodeYukPay, wallettopup.metode, wallettopup.nominal, wallettopup.tanggal, wallettopup.id_pengguna, wallettopup.status").Joins("join pengguna on wallettopup.id_pengguna=pengguna.id").Where("id_pengguna = ?", IdPengguna).Order("wallettopup.tanggal DESC").Scan(&topups).Error
 
 	return topups, err
 }

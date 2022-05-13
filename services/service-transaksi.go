@@ -29,7 +29,7 @@ func (s *transaksiService) Create(req *models.NewTransaksi) (models.NewTransaksi
 	req.ID_Transaksi = result
 
 	req.Status = "Paid"
-	transaksi, err := r.transaksiRepository.Create(req)
+	transaksi, err := s.transaksiRepository.Create(req)
 	return transaksi, err
 }
 

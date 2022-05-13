@@ -108,6 +108,7 @@ ALTER TABLE `wallettopup`
   ADD KEY `id_pengguna` (`id_pengguna`);
 
 ALTER TABLE `tagihan`
+  ADD PRIMARY KEY (`id_tagihan`),
   ADD KEY `id_pengguna` (`id_pengguna`),
   ADD KEY `id_kategoriLayanan` (`id_kategoriLayanan`);
 

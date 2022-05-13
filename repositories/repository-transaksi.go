@@ -12,6 +12,7 @@ type TransaksiRepository interface {
 	GetCount() int64
 	GetTransaksiById(ID string) ([]models.Transaksi, error)
 	GetTotalHarga() ([]models.Transaksi, error)
+	UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error)
 }
 
 type transaksiRepository struct {
@@ -57,4 +58,13 @@ func (r *transaksiRepository) GetTotalHarga() ([]models.Transaksi, error) {
 	err := r.db.Table("transaksi").Select("totalHarga").Find(&transactions).Error
 
 	return transactions, err
+}
+
+func (r *transaksiRepository) UpdateStatusTransaksi(req *models.UpdateRequestTransaksi) (models.UpdateTransaksi, error) {
+	err := r.db.Table("transaksi").Where("id_pengguna = ?", req.ID_Pengguna).Where("id_varian", req.ID_varian).Update("status", "Paid").Error
+
+	var transaction models.UpdateTransaksi
+	err = r.db.Table("transaksi").Select("transaksi.id_transaksi, transaksi.id_pengguna, transaksi.id_varian, transaksi.status").Joins("join varian on transaksi.id_varian=varian.id").Joins("join pengguna on transaksi.id_pengguna=pengguna.id").Where("id_pengguna = ?", req.ID_Pengguna).Where("id_varian = ?", req.ID_varian).Find(&transaction).Error
+
+	return transaction, err
 }

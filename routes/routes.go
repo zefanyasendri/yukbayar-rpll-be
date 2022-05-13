@@ -34,6 +34,10 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 	topUpService := services.NewTopUpService(topUpRepository)
 	topUpController := controllers.NewTopUpController(topUpService)
 
+	diskonRepository := repositories.NewDiskonRepository(db)
+	diskonService := services.NewDiskonService(diskonRepository)
+	diskonController := controllers.NewDiskonController(diskonService)
+
 	mitraRepository := repositories.NewMitraRepository(db)
 	mitraService := services.NewMitraService(mitraRepository)
 	mitraController := controllers.NewMitraController(mitraService)
@@ -70,6 +74,11 @@ func Routes(route *gin.Engine, db *gorm.DB) {
 		topups.POST("/topup", topUpController.InsertNewTopup)
 		topups.PUT("/:idPengguna/:id", topUpController.UpdateSaldoUser)
 		topups.GET("/:id", topUpController.GetByPenggunaID)
+	}
+
+	diskons := route.Group("/diskon")
+	{
+		diskons.GET("/", diskonController.GetAll)
 	}
 
 	transaksis := route.Group("/transaksi")
